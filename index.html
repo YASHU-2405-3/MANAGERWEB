@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Creator X Brand connects creators with brands for sponsorships, partnerships and collaborations.">
+  <title>Creator X Brand — Creators × Brands</title>
+  <style>
+    :root{--bg:#07110d;--surface:#0d1a15;--text:#f4f8f5;--muted:#a9b8b0;--accent:#7cff9b;--line:#1c3026}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+    a{color:inherit;text-decoration:none}.container{width:min(1120px,92%);margin:auto}
+    header{position:sticky;top:0;z-index:10;background:rgba(7,17,13,.9);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+    nav{min-height:72px;display:flex;align-items:center;justify-content:space-between;gap:20px}.logo{font-weight:800;font-size:20px;letter-spacing:-.5px}.logo span{color:var(--accent)}
+    .navlinks{display:flex;gap:24px;color:var(--muted);font-size:14px}.navlinks a:hover{color:var(--text)}
+    .hero{padding:105px 0 90px;text-align:center}.eyebrow{display:inline-block;border:1px solid #285238;border-radius:999px;padding:7px 13px;color:var(--accent);font-size:13px}
+    h1{font-size:clamp(44px,8vw,82px);line-height:.98;letter-spacing:-4px;margin:25px auto 24px;max-width:850px}
+    h1 span{color:var(--accent)}.hero p{max-width:650px;margin:0 auto;color:var(--muted);font-size:18px}
+    .actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:32px}.btn{padding:13px 20px;border-radius:10px;border:1px solid var(--line);font-weight:700}.primary{background:var(--accent);color:#06100a;border-color:var(--accent)}.secondary{background:var(--surface)}
+    section{padding:75px 0}.section-title{text-align:center;font-size:34px;margin:0 0 12px;letter-spacing:-1px}.section-copy{text-align:center;color:var(--muted);max-width:650px;margin:0 auto 38px}
+    .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:28px}.card h3{margin:0 0 8px;font-size:21px}.card p{margin:0;color:var(--muted)}
+    .process{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.step{padding:25px;border-top:2px solid var(--accent)}.num{color:var(--accent);font-weight:800}
+    .cta{background:var(--surface);border:1px solid var(--line);border-radius:24px;text-align:center;padding:55px 25px}.cta p{color:var(--muted);max-width:600px;margin:10px auto 25px}
+    footer{border-top:1px solid var(--line);padding:28px 0;color:var(--muted);font-size:13px}
+    @media(max-width:700px){.navlinks{display:none}.hero{padding:75px 0 65px}h1{letter-spacing:-2.5px}.grid,.process{grid-template-columns:1fr}.card{padding:23px}}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <nav>
+        <a class="logo" href="index.html">Creator <span>X</span> Brand</a>
+        <div class="navlinks"><a href="#for-creators">Creators</a><a href="#for-brands">Brands</a><a href="#how">How It Works</a><a href="#contact">Contact</a></div>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="eyebrow">Creators × Brands</div>
+        <h1>Where great creators meet <span>great brands.</span></h1>
+        <p>Creator X Brand helps creators find relevant sponsorship opportunities and helps brands connect with creators who fit their campaigns.</p>
+        <div class="actions">
+          <a class="btn primary" href="#for-creators">I'm a Creator</a>
+          <a class="btn secondary" href="#for-brands">I'm a Brand</a>
+        </div>
+      </div>
+    </section>
+
+    <section id="for-creators">
+      <div class="container">
+        <h2 class="section-title">For Creators</h2>
+        <p class="section-copy">Find sponsorship and partnership opportunities that make sense for your content and audience.</p>
+        <div class="grid">
+          <div class="card"><h3>Relevant Opportunities</h3><p>Discover brand campaigns aligned with your content and audience.</p></div>
+          <div class="card"><h3>Partnership Support</h3><p>Build professional brand relationships around campaigns and collaborations.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="for-brands">
+      <div class="container">
+        <h2 class="section-title">For Brands</h2>
+        <p class="section-copy">Connect with creators who can help your campaign reach the right audience.</p>
+        <div class="grid">
+          <div class="card"><h3>Creator Discovery</h3><p>Find creators based on content, audience and campaign requirements.</p></div>
+          <div class="card"><h3>Campaign Partnerships</h3><p>Build creator partnerships for sponsorships, promotions and collaborations.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="how">
+      <div class="container">
+        <h2 class="section-title">How It Works</h2>
+        <p class="section-copy">A simple path from introduction to partnership.</p>
+        <div class="process">
+          <div class="step"><div class="num">01</div><h3>Tell us what you need</h3><p>Creators share their profile. Brands share their campaign.</p></div>
+          <div class="step"><div class="num">02</div><h3>Find the right match</h3><p>We connect relevant creators and brands based on the opportunity.</p></div>
+          <div class="step"><div class="num">03</div><h3>Build the partnership</h3><p>Move forward with sponsorships, collaborations and partnerships.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact">
+      <div class="container">
+        <div class="cta">
+          <h2 class="section-title">Ready to connect?</h2>
+          <p>Whether you're a creator looking for sponsorships or a brand looking for creators, start the conversation with Creator X Brand.</p>
+          <div class="actions">
+            <a class="btn primary" href="#">Creator Application</a>
+            <a class="btn secondary" href="#">Brand Application</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer><div class="container">© 2026 Creator X Brand. Creators × Brands.</div></footer>
+</body>
+</html>
