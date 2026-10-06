@@ -18,36 +18,11 @@ header{position:sticky;top:0;z-index:50;border-bottom:1px solid var(--line);back
 @media(max-width:700px){.wrap{width:min(100% - 24px,1120px)}.logo{font-size:18px}.account-link{font-size:12px;padding:7px 9px}.hero{padding:58px 0 55px}h1{letter-spacing:-2.5px}.quick,.steps,.split{grid-template-columns:1fr}.quick{margin-top:38px}.section{padding:55px 0}.panel,.step{padding:22px}.hover-note{display:none}}
 @media(max-width:420px){.logo{font-size:17px}.account-link{padding:7px 8px}.account-link.signup{display:none}h1{font-size:38px;letter-spacing:-2px}.main-actions{width:100%}.main-btn{width:100%}.quick-card{padding:18px}}
 </style>
-</head>
+<link rel="stylesheet" href="site.css"></head>
 <body>
-<header><div class="wrap"><nav>
-<a class="logo" href="index.html">Creator <span>X</span> Brand</a>
-<div class="nav-right">
-<a class="account-link" href="#" data-account="signin">Sign in</a>
-<a class="account-link signup" href="#" data-account="signup">Sign up</a>
-<button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false"><span></span></button>
-</div>
-<div class="drawer" id="drawer">
-<a href="index.html">Home</a>
-<a href="about.html">About</a>
-<a href="services.html">Services</a>
-<a href="contact.html">Contact</a>
-</div>
-</nav></div></header>
 
-<div class="account-modal" id="accountModal" aria-hidden="true">
-<div class="account-box">
-<div class="account-head"><h2 id="accountTitle">Sign in</h2><button class="close" id="closeAccount" aria-label="Close">×</button></div>
-<div class="tabs"><button class="tab active" data-mode="signin">Sign in</button><button class="tab" data-mode="signup">Sign up</button></div>
-<form class="account-form" id="accountForm">
-<div id="nameField" style="display:none"><label for="accountName">Name</label><input id="accountName" autocomplete="name" placeholder="Your name"></div>
-<label for="accountEmail">Email</label><input id="accountEmail" type="email" required autocomplete="email" placeholder="you@example.com">
-<label for="accountPassword">Password</label><input id="accountPassword" type="password" required autocomplete="current-password" placeholder="Your password">
-<button class="account-submit" type="submit" id="accountSubmit">Sign in</button>
-</form>
-<p class="account-note">Account UI is ready. For real secure accounts and cross-device data storage, connect this form to a backend/authentication service before launch. Passwords are not saved in browser storage.</p>
-</div>
-</div>
+
+
 
 <main>
 <section class="hero">
@@ -82,20 +57,5 @@ header{position:sticky;top:0;z-index:50;border-bottom:1px solid var(--line);back
 </main>
 <footer><div class="wrap">© 2026 Creator X Brand</div></footer>
 
-<script>
-const drawer=document.getElementById('drawer'),menuBtn=document.getElementById('menuBtn');
-menuBtn.addEventListener('click',()=>{const open=drawer.classList.toggle('open');menuBtn.setAttribute('aria-expanded',open)});
-document.addEventListener('click',e=>{if(!e.target.closest('#menuBtn')&&!e.target.closest('#drawer'))drawer.classList.remove('open')});
-
-const modal=document.getElementById('accountModal'),title=document.getElementById('accountTitle'),nameField=document.getElementById('nameField'),submit=document.getElementById('accountSubmit'),nameInput=document.getElementById('accountName'),emailInput=document.getElementById('accountEmail'),passwordInput=document.getElementById('accountPassword'),tabs=document.querySelectorAll('.tab');
-let mode='signin';
-function setMode(next){mode=next;title.textContent=next==='signup'?'Create your account':'Sign in';nameField.style.display=next==='signup'?'block':'none';nameInput.required=next==='signup';submit.textContent=next==='signup'?'Create account':'Sign in';tabs.forEach(t=>t.classList.toggle('active',t.dataset.mode===next));passwordInput.autocomplete=next==='signup'?'new-password':'current-password'}
-function openAccount(next){setMode(next);modal.classList.add('open');modal.setAttribute('aria-hidden','false');emailInput.focus()}
-document.querySelectorAll('[data-account]').forEach(x=>x.addEventListener('click',e=>{e.preventDefault();openAccount(x.dataset.account)}));
-tabs.forEach(t=>t.addEventListener('click',()=>setMode(t.dataset.mode)));
-document.getElementById('closeAccount').addEventListener('click',()=>modal.classList.remove('open'));
-modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});
-document.getElementById('accountForm').addEventListener('submit',e=>{e.preventDefault();const profile={name:nameInput.value.trim(),email:emailInput.value.trim(),signedInAt:new Date().toISOString()};localStorage.setItem('creatorXBrandProfile',JSON.stringify(profile));modal.classList.remove('open');alert(mode==='signup'?'Account details saved on this device. Connect a backend for real account authentication.':'Signed-in profile saved on this device. Connect a backend for real authentication.')});
-</script>
-</body>
+<script src="site.js" defer></script></body>
 </html>
