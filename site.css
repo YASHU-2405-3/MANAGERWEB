@@ -1,5 +1,5 @@
 *{box-sizing:border-box}
-.site-header{position:sticky;top:0;z-index:100;border-bottom:1px solid #20372b;background:rgba(6,16,12,.94);backdrop-filter:blur(16px)}
+.legacy-hidden{display:none!important}.site-header{position:sticky;top:0;z-index:100;border-bottom:1px solid #20372b;background:rgba(6,16,12,.94);backdrop-filter:blur(16px)}
 .site-nav{width:min(1120px,calc(100% - 32px));min-height:72px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:14px}
 .site-logo{font-size:20px;font-weight:850;letter-spacing:-.5px;white-space:nowrap;text-decoration:none;color:#f5f8f6}.site-logo span{color:#2dff91}
 .site-nav-right{display:flex;align-items:center;gap:9px}
