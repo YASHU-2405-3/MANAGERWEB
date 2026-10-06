@@ -15,7 +15,7 @@
     .hero{padding:105px 0 90px;text-align:center}.eyebrow{display:inline-block;border:1px solid #285238;border-radius:999px;padding:7px 13px;color:var(--accent);font-size:13px}
     h1{font-size:clamp(44px,8vw,82px);line-height:.98;letter-spacing:-4px;margin:25px auto 24px;max-width:850px}
     h1 span{color:var(--accent)}.hero p{max-width:650px;margin:0 auto;color:var(--muted);font-size:18px}
-    .actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:32px}.btn{padding:13px 20px;border-radius:10px;border:1px solid var(--line);font-weight:700}.primary{background:var(--accent);color:#06100a;border-color:var(--accent)}.secondary{background:var(--surface)}
+    .actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:32px}.btn{position:relative;padding:13px 20px;border-radius:10px;border:1px solid var(--line);font-weight:700}.primary{background:var(--accent);color:#06100a;border-color:var(--accent)}.secondary{background:var(--surface)}.choice{position:relative}.tip{position:absolute;left:50%;bottom:calc(100% + 12px);transform:translateX(-50%) translateY(6px);width:260px;padding:13px 15px;border:1px solid var(--line);border-radius:12px;background:#101f18;color:var(--muted);font-size:13px;line-height:1.45;text-align:left;opacity:0;pointer-events:none;transition:.2s ease;box-shadow:0 12px 30px rgba(0,0,0,.25)}.tip strong{display:block;color:var(--text);margin-bottom:4px}.choice:hover .tip,.choice:focus-within .tip{opacity:1;transform:translateX(-50%) translateY(0)}
     section{padding:75px 0}.section-title{text-align:center;font-size:34px;margin:0 0 12px;letter-spacing:-1px}.section-copy{text-align:center;color:var(--muted);max-width:650px;margin:0 auto 38px}
     .grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px}.card{background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:28px}.card h3{margin:0 0 8px;font-size:21px}.card p{margin:0;color:var(--muted)}
     .process{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}.step{padding:25px;border-top:2px solid var(--accent)}.num{color:var(--accent);font-weight:800}
@@ -29,7 +29,7 @@
     <div class="container">
       <nav>
         <a class="logo" href="index.html">Creator <span>X</span> Brand</a>
-        <div class="navlinks"><a href="#for-creators">Creators</a><a href="#for-brands">Brands</a><a href="#how">How It Works</a><a href="#contact">Contact</a></div>
+        <div class="navlinks"><a href="creator.html">Creators</a><a href="brand.html">Brands</a><a href="about.html">About</a><a href="contact.html">Contact</a></div>
       </nav>
     </div>
   </header>
@@ -41,8 +41,8 @@
         <h1>Where great creators meet <span>great brands.</span></h1>
         <p>Creator X Brand helps creators find relevant sponsorship opportunities and helps brands connect with creators who fit their campaigns.</p>
         <div class="actions">
-          <a class="btn primary" href="#for-creators">I'm a Creator</a>
-          <a class="btn secondary" href="#for-brands">I'm a Brand</a>
+          <div class="choice"><a class="btn primary" href="creator.html">I'm a Creator</a><div class="tip"><strong>For Creators</strong>Get sponsorships, brand partnerships and collaboration opportunities for your content.</div></div>
+          <div class="choice"><a class="btn secondary" href="brand.html">I'm a Brand</a><div class="tip"><strong>For Brands</strong>Find relevant creators and build sponsorships, campaigns and long-term partnerships.</div></div>
         </div>
       </div>
     </section>
