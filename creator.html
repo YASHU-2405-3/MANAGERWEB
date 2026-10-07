@@ -54,92 +54,23 @@ footer{border-top:1px solid #21372b;padding:25px 0;color:#a8b7af;font-size:13px}
 </style>
 <link rel="stylesheet" href="site.css">
 </head>
-<body>
-<header></header>
-
-<main>
-<section class="hero">
-<div class="w">
-<div class="eyebrow">For Creators</div>
-<h1>Build better <span>brand partnerships.</span></h1>
-<p>Creator X Brand helps creators discover relevant sponsorship opportunities, connect with brands and turn the right collaborations into professional partnerships.</p>
-<div class="actions">
-<a class="btn" href="creator-application.html">Apply as a Creator →</a>
-<a class="btn alt" href="contact.html">Talk to us</a>
-</div>
-</div>
-</section>
-
-<section class="section">
-<div class="w">
-<div class="section-head">
-<div class="kicker">What we do</div>
-<h2>More than just finding a sponsor.</h2>
-<p>We focus on making the creator–brand connection clear, relevant and easier to manage.</p>
-</div>
-<div class="grid">
-<article class="card"><div class="num">01</div><h3>Brand Opportunities</h3><p>Discover sponsorship and collaboration opportunities that can fit your content, audience and creator profile.</p></article>
-<article class="card"><div class="num">02</div><h3>Creator–Brand Matching</h3><p>We help identify brands and campaigns where your content and audience may be a relevant match.</p></article>
-<article class="card"><div class="num">03</div><h3>Partnership Support</h3><p>Get a more organised path from initial interest to campaign communication and collaboration.</p></article>
-</div>
-</div>
-</section>
-
-<section class="section">
-<div class="w">
-<div class="section-head">
-<div class="kicker">How it works</div>
-<h2>A simple path from creator to collaboration.</h2>
-</div>
-<div class="grid">
-<article class="card"><div class="num">01</div><h3>Apply</h3><p>Tell us about your content, platform and creator profile through the application.</p></article>
-<article class="card"><div class="num">02</div><h3>Get Matched</h3><p>When a relevant opportunity comes up, we can connect suitable creators with the brand.</p></article>
-<article class="card"><div class="num">03</div><h3>Collaborate</h3><p>Move forward with the brand on campaign details, deliverables and partnership terms.</p></article>
-</div>
-</div>
-</section>
-
-<section class="section">
-<div class="w">
-<div class="split">
-<div class="panel">
-<div class="kicker">Built for creators</div>
-<h3>Your content stays at the centre.</h3>
-<p>We are designed for creators who want to grow through relevant brand relationships without making their creator identity feel secondary.</p>
-<ul>
-<li>Relevant sponsorship opportunities</li>
-<li>Brand partnership discovery</li>
-<li>Campaign collaboration opportunities</li>
-<li>A professional creator application process</li>
-</ul>
-</div>
-<div class="panel">
-<div class="kicker">Good fit</div>
-<h3>Come prepared.</h3>
-<p>The stronger your creator profile, the easier it is to understand where you may fit.</p>
-<ul>
-<li>Keep your social profiles up to date</li>
-<li>Know your content niche and audience</li>
-<li>Share accurate creator information</li>
-<li>Be clear about the type of collaborations you want</li>
-</ul>
-</div>
-</div>
-</div>
-</section>
-
-<div class="w">
-<section class="cta">
-<div>
-<h2>Ready to introduce your creator profile?</h2>
-<p>Apply and tell us what you create. We’ll use your information to understand potential brand opportunities.</p>
-</div>
-<a class="btn" href="creator-application.html">Start Creator Application →</a>
-</section>
-</div>
-</main>
-
-<footer><div class="w">Creator X Brand</div></footer>
-<script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script><script src="site.js" defer></script>
+<body><style>
+body{background:#07110d!important;color:#f5f8f6;font-family:Inter,system-ui,sans-serif}
+.eyebrow{color:#2dff91;font-size:12px;font-weight:850;letter-spacing:.1em;text-transform:uppercase}
+.about-wrap,.svc-wrap,.contact-wrap,.cx-wrap{width:min(1080px,calc(100% - 28px));margin:auto}
+.about-hero,.svc-hero,.contact-hero,.cx-hero{padding:78px 0 55px;position:relative;overflow:hidden}
+.about-hero:after,.svc-hero:after,.contact-hero:after,.cx-hero:after{content:"";position:absolute;width:300px;height:300px;right:4%;top:20px;background:rgba(45,255,145,.07);filter:blur(75px);border-radius:50%;pointer-events:none}
+.about-hero h1,.svc-hero h1,.contact-hero h1,.cx-hero h1{max-width:900px;font-size:clamp(42px,7vw,74px);line-height:.97;letter-spacing:-4px;margin:13px 0 20px}
+.about-hero h1 span,.svc-hero h1 span,.contact-hero h1 span,.cx-hero h1 span{color:#2dff91}
+.about-hero p,.svc-hero p,.contact-hero p,.cx-hero p{max-width:730px;color:#a8b7af;font-size:17px;line-height:1.75}
+.about-grid,.svc-grid,.cx-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+.about-grid{padding:18px 0 64px}.about-grid article,.svc-grid article,.cx-grid article{padding:26px;border:1px solid #21372b;border-radius:19px;background:#0c1914;transition:.25s}.about-grid article:hover,.svc-grid article:hover,.cx-grid article:hover{transform:translateY(-5px);border-color:#386049}.about-grid b,.svc-grid b,.cx-grid b{color:#2dff91;font-size:12px}.about-grid h2,.svc-grid h2,.cx-grid h3{margin:13px 0 8px}.about-grid p,.svc-grid p,.cx-grid p{margin:0;color:#a8b7af;line-height:1.7}
+.about-split,.cx-split{display:grid;grid-template-columns:1.1fr .9fr;gap:16px;padding-bottom:70px}.about-split>div,.cx-split>div{padding:30px;border:1px solid #21372b;border-radius:22px;background:linear-gradient(145deg,#0d1b15,#09140f)}.about-split small,.cx-split small,.svc-process small,.contact-note small{color:#2dff91;font-weight:850;font-size:11px;letter-spacing:.1em}.about-split h2,.cx-split h2{font-size:30px;letter-spacing:-1px;margin:10px 0}.about-split p,.cx-split p{color:#a8b7af;line-height:1.75}.about-split ul,.cx-split ul{padding-left:20px;color:#c4d0ca;line-height:1.9}.about-quote{font-size:clamp(26px,4vw,40px);font-weight:850;line-height:1.15;letter-spacing:-1.5px;display:flex;align-items:flex-end}.about-quote span{color:#2dff91}.about-cta,.svc-cta,.cx-cta,.contact-note{margin-bottom:70px;padding:30px;border:1px solid #31503f;border-radius:22px;background:#0d1b15;display:flex;align-items:center;justify-content:space-between;gap:20px}.about-cta h2,.svc-cta h2,.cx-cta h2,.contact-note h2{margin:0 0 7px;font-size:28px}.about-cta p,.svc-cta p,.cx-cta p,.contact-note p{margin:0;color:#a8b7af}.about-cta a,.svc-cta a,.cx-cta a,.contact-note>a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 19px;border-radius:11px;background:#2dff91;color:#06100a;text-decoration:none;font-weight:850;white-space:nowrap}
+.svc-grid{padding:18px 0 60px;grid-template-columns:repeat(2,1fr)}.svc-grid article{min-height:220px}.svc-grid em{display:inline-block;margin-top:12px;padding:6px 9px;border:1px solid #2a4435;border-radius:999px;color:#9eb0a6;font-size:11px;font-style:normal;font-weight:800}.svc-process{padding:48px 0 65px;border-top:1px solid #17291f}.svc-process h2{font-size:36px;letter-spacing:-1.5px}.svc-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}.svc-steps>div{padding:23px;border:1px solid #21372b;border-radius:18px;background:#0a1511}.svc-steps strong{color:#2dff91}.svc-steps h3{margin:9px 0}.svc-steps p{margin:0;color:#a8b7af;line-height:1.65}
+.contact-hero{text-align:center}.contact-hero p{margin:auto}.contact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:13px;padding:20px 0 45px}.contact-card{position:relative;overflow:hidden;display:block;padding:22px;text-decoration:none;color:#f5f8f6;border:1px solid #21372b;border-radius:18px;background:#0c1914;transition:.25s}.contact-card:before{content:"";position:absolute;width:150px;height:150px;left:-70px;top:-70px;background:rgba(45,255,145,.08);border-radius:50%;filter:blur(25px)}.contact-card:hover{transform:translateY(-6px);border-color:#386049}.contact-card strong{position:relative;width:42px;height:42px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:#112319;color:#2dff91;margin-bottom:24px}.contact-card h2{position:relative;font-size:18px;margin:0 0 7px}.contact-card p{position:relative;color:#8fa197;font-size:12px;margin:0 0 15px}.contact-card span{position:relative;color:#2dff91;font-size:12px;font-weight:800}.pulse{animation:pulse 2.8s ease-in-out infinite}@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(45,255,145,.15)}50%{box-shadow:0 0 0 10px rgba(45,255,145,0)}}
+.cx-actions{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}.cx-actions a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 19px;border-radius:11px;background:#2dff91;color:#06100a;text-decoration:none;font-weight:850;transition:.22s}.cx-actions a:hover{transform:translateY(-3px);box-shadow:0 12px 30px rgba(45,255,145,.12)}.cx-actions a.alt{background:#0c1914;color:#f5f8f6;border:1px solid #294238}.cx-section{padding:56px 0}.cx-section>small{color:#2dff91;font-weight:850;font-size:11px;letter-spacing:.1em}.cx-section>h2{font-size:clamp(29px,5vw,42px);letter-spacing:-1.8px;margin:9px 0 25px}.cx-split{padding-top:15px}.cx-cta{margin-top:0}
+@media(max-width:760px){.about-hero,.svc-hero,.contact-hero,.cx-hero{padding:54px 0 40px}.about-hero h1,.svc-hero h1,.contact-hero h1,.cx-hero h1{letter-spacing:-2.5px}.about-grid,.about-split,.svc-grid,.svc-steps,.contact-grid,.cx-grid,.cx-split{grid-template-columns:1fr}.about-grid,.svc-grid,.cx-section{padding-bottom:42px}.about-split,.cx-split{padding-bottom:48px}.about-cta,.svc-cta,.cx-cta,.contact-note{align-items:flex-start;flex-direction:column;margin-bottom:48px}.about-cta a,.svc-cta a,.cx-cta a,.contact-note>a{width:100%}.cx-actions{flex-direction:column}.cx-actions a{width:100%}}
+@media(max-width:480px){.contact-grid{grid-template-columns:1fr}}
+</style><main><section class="cx-hero"><div class="cx-wrap"><div class="eyebrow">For Creators</div><h1>Turn your audience into the <span>right partnerships.</span></h1><p>Discover sponsorships, brand collaborations and campaign opportunities built around your content and audience.</p><div class="cx-actions"><a href="creator-application.html">Apply as a Creator →</a><a class="alt" href="services.html">Explore Services</a></div></div></section><section class="cx-wrap cx-section"><small>WHAT YOU GET</small><h2>A creator-focused partnership path.</h2><div class="cx-grid"><article><b>01</b><h3>Opportunity Discovery</h3><p>Find sponsorship and collaboration opportunities that may fit your creator profile.</p></article><article><b>02</b><h3>Brand Matching</h3><p>Get considered for campaigns where your niche and audience can be relevant.</p></article><article><b>03</b><h3>Partnership Support</h3><p>Move from an introduction toward clearer campaign communication.</p></article></div></section><section class="cx-wrap cx-section"><small>HOW IT WORKS</small><h2>Simple. Focused. Professional.</h2><div class="cx-grid"><article><b>01</b><h3>Apply</h3><p>Share your platform, niche and creator details.</p></article><article><b>02</b><h3>Get Matched</h3><p>Relevant opportunities can be matched with suitable profiles.</p></article><article><b>03</b><h3>Collaborate</h3><p>Discuss campaign details, deliverables and partnership terms.</p></article></div></section><section class="cx-wrap cx-split"><div><small>BE READY</small><h2>Strong profiles get clearer opportunities.</h2><ul><li>Updated social profiles</li><li>Clear niche and content style</li><li>Accurate audience information</li><li>Clear collaboration preferences</li></ul></div><div><small>CREATOR X BRAND</small><h2>Your content comes first.</h2><p>The goal is not to change what makes you a creator. It is to connect that identity with brands where a genuine partnership can make sense.</p></div></section><section class="cx-wrap cx-cta"><div><h2>Ready to start?</h2><p>Tell us what you create and the partnerships you want.</p></div><a href="creator-application.html">Start Application →</a></section></main><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-app-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-auth-compat.js"></script><script src="https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore-compat.js"></script><script src="firebase-config.js"></script><script src="site.js" defer></script>
 </body>
 </html>
