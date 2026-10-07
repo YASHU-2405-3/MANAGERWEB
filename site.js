@@ -46,6 +46,8 @@ async function init(){
   header();modal();bind(fb);
 }
 
+function toast(message,type="success"){let el=document.getElementById("siteToast");if(!el){el=document.createElement("div");el.id="siteToast";el.style.cssText="position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);z-index:500;max-width:min(92vw,520px);padding:12px 16px;border:1px solid #31583e;border-radius:12px;background:#0b1913;color:#f5f8f6;box-shadow:0 18px 45px rgba(0,0,0,.4);font:600 13px/1.45 system-ui,sans-serif;opacity:0;transition:.25s ease";document.body.appendChild(el)}el.textContent=message;el.style.borderColor=type==="error"?"#704040":"#31583e";el.style.color=type==="error"?"#ffb4b4":"#f5f8f6";requestAnimationFrame(()=>{el.style.opacity="1";el.style.transform="translateX(-50%) translateY(0)"});clearTimeout(el._t);el._t=setTimeout(()=>{el.style.opacity="0";el.style.transform="translateX(-50%) translateY(20px)"},3200)}
+function bindApplicationForms(fb){document.querySelectorAll("form[data-application]").forEach(form=>{if(form.dataset.bound)return;form.dataset.bound="1";const status=form.querySelector(".app-form-status"),button=form.querySelector(".submit");form.addEventListener("submit",async e=>{e.preventDefault();if(!fb){toast("Firebase is not connected yet.","error");return}const user=fb.auth.currentUser;if(!user){toast("Please sign in before submitting your application.","error");return}const type=form.dataset.application;const data={userId:user.uid,type,status:"pending",createdAt:firebase.firestore.FieldValue.serverTimestamp()};form.querySelectorAll("[data-field]").forEach(input=>{data[input.dataset.field]=input.value.trim()});if(status){status.className="app-form-status";status.textContent=""}button.disabled=true;button.textContent="Submitting...";try{await fb.db.collection("applications").add(data);form.reset();if(status){status.className="app-form-status show success";status.textContent="Application submitted successfully. We’ll review your details and get back to you."}toast("Application submitted successfully.");}catch(err){if(status){status.className="app-form-status show error";status.textContent=err.message||"Could not submit your application. Please try again."}toast("Could not submit the application.","error")}finally{button.disabled=false;button.textContent=type==="creator"?"Submit Creator Application →":"Submit Brand Application →"}})})}
 function bind(fb){
   const drawer=document.getElementById("siteDrawer"),menu=document.getElementById("siteMenuBtn");
   if(menu&&!menu.dataset.bound){menu.dataset.bound="1";menu.addEventListener("click",e=>{e.stopPropagation();const open=drawer.classList.toggle("open");menu.setAttribute("aria-expanded",open)});document.addEventListener("click",e=>{if(!e.target.closest("#siteMenuBtn")&&!e.target.closest("#siteDrawer"))drawer.classList.remove("open")})}
@@ -87,6 +89,7 @@ function bind(fb){
     const signout=document.getElementById("siteSignOut");
     signout.addEventListener("click",async()=>{try{if(fb)await fb.auth.signOut()}finally{localStorage.removeItem(KEY);location.reload()}})
   }
+  bindApplicationForms(fb);
 }
 
 if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",init);else init()})();
