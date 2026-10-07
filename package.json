@@ -1,0 +1,6 @@
+{
+  "name":"creator-x-brand-admin-tools",
+  "private":true,
+  "scripts":{"set-admin":"node scripts/set-admin.js"},
+  "dependencies":{"firebase-admin":"^13.5.0"}
+}
