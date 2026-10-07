@@ -9,7 +9,7 @@ function header(){
   const nav=[["index.html","Home"],["about.html","About"],["services.html","Services"],["contact.html","Contact"]];
   const profile=getProfile();
   const account=profile
-    ? '<div class="site-profile"><button class="site-profile-btn" id="siteProfileBtn"><span class="site-avatar">'+initials(profile.name,profile.email)+'</span>Profile</button><div class="site-profile-menu" id="siteProfileMenu"><button id="siteSignOut">Sign out</button></div></div>'
+    ? '<div class="site-profile"><button class="site-profile-btn" id="siteProfileBtn"><span class="site-avatar">'+initials(profile.name,profile.email)+'</span>Profile</button><div class="site-profile-menu" id="siteProfileMenu"><a href="chat.html">Chat</a><button id="siteSignOut">Sign out</button></div></div>'
     : '<a class="site-account" href="#" data-auth="signin">Sign in</a><a class="site-account signup" href="#" data-auth="signup">Sign up</a>';
   const links=nav.map(([href,label])=>'<a href="'+href+'"'+(current===href?' class="active"':'')+'>'+label+'</a>').join("");
   document.body.insertAdjacentHTML("afterbegin",'<header class="site-header"><nav class="site-nav"><a class="site-logo" href="index.html">Creator <span>X</span> Brand</a><div class="site-nav-right">'+account+'<button class="site-menu-btn" id="siteMenuBtn" aria-label="Open menu" aria-expanded="false"><span class="site-menu-icon"></span></button></div><div class="site-drawer" id="siteDrawer">'+links+'</div></nav></header>');
