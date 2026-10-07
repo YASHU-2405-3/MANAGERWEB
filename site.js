@@ -2,6 +2,20 @@
 function getProfile(){try{return JSON.parse(localStorage.getItem(KEY)||"null")}catch{return null}}
 function initials(name,email){const s=(name||email||"U").trim();return s.split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase()}
 
+function setAdminMenu(isAdmin){
+  const drawer=document.getElementById("siteDrawer");
+  if(!drawer)return;
+  const current=location.pathname.split("/").pop()||"index.html";
+  const existing=drawer.querySelector('[data-admin-link]');
+  if(isAdmin&&!existing){
+    drawer.insertAdjacentHTML("beforeend",'<a data-admin-link href="admin.html"'+(current==="admin.html"?' class="active"':'')+'>Admin Dashboard</a>');
+  }else if(!isAdmin&&existing) existing.remove();
+}
+function showApplicationSuccess(ticketId){
+  let old=document.getElementById("applicationSuccessModal"); if(old)old.remove();
+  document.body.insertAdjacentHTML("beforeend",'<div id="applicationSuccessModal" style="position:fixed;inset:0;z-index:1000;display:flex;align-items:center;justify-content:center;padding:20px;background:rgba(0,0,0,.72);backdrop-filter:blur(8px)"><div style="width:min(430px,100%);padding:28px;border:1px solid #31583e;border-radius:22px;background:#0b1913;color:#f5f8f6;text-align:center;box-shadow:0 30px 90px #0009"><div style="font-size:42px">✓</div><h2 style="margin:8px 0">Application Successfully Applied</h2><p style="color:#9eb1a5">Your application has been received successfully.</p><div style="margin:20px 0;padding:14px;border:1px dashed #31583e;border-radius:14px"><small style="color:#91a99a">TICKET ID</small><strong style="display:block;margin-top:5px;font-size:20px;letter-spacing:1px;color:#b9f5cb">'+ticketId+'</strong></div><button id="closeApplicationSuccess" style="width:100%;padding:13px;border:0;border-radius:12px;background:#b9f5cb;color:#07120b;font-weight:800">Done</button></div></div>');
+  document.getElementById("closeApplicationSuccess").onclick=()=>document.getElementById("applicationSuccessModal")?.remove();
+}
 function header(){
   const old=document.querySelector("body>header");if(old)old.remove();
   document.querySelectorAll(".top").forEach(e=>e.classList.add("legacy-hidden"));
@@ -31,15 +45,20 @@ async function init(){
     fb.auth.onAuthStateChanged(async user=>{
       if(user){
         let p=getProfile();
-        if(!p||p.email!==user.email){
-          let role="creator",name=user.displayName||user.email?.split("@")[0]||"User";
-          try{const snap=await fb.db.collection("users").doc(user.uid).get();if(snap.exists){const d=snap.data();role=d.role||role;name=d.name||name}}catch{}
-          localStorage.setItem(KEY,JSON.stringify({name,email:user.email,signedIn:true,uid:user.uid,role}));
-        }
+        let role="creator",name=user.displayName||user.email?.split("@")[0]||"User",isAdmin=false;
+        try{
+          const snap=await fb.db.collection("users").doc(user.uid).get();
+          if(snap.exists){const d=snap.data();role=d.role||role;name=d.name||name}
+          const token=await user.getIdTokenResult(true);
+          isAdmin=token.claims.admin===true;
+        }catch{}
+        localStorage.setItem(KEY,JSON.stringify({name,email:user.email,signedIn:true,uid:user.uid,role,isAdmin}));
         if(!document.querySelector(".site-header")){header();modal();bind(fb)}
+        setAdminMenu(isAdmin);
       }else{
         localStorage.removeItem(KEY);
         if(!document.querySelector(".site-header")){header();modal();bind(fb)}
+        setAdminMenu(false);
       }
     });
   }
@@ -47,7 +66,13 @@ async function init(){
 }
 
 function toast(message,type="success"){let el=document.getElementById("siteToast");if(!el){el=document.createElement("div");el.id="siteToast";el.style.cssText="position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);z-index:500;max-width:min(92vw,520px);padding:12px 16px;border:1px solid #31583e;border-radius:12px;background:#0b1913;color:#f5f8f6;box-shadow:0 18px 45px rgba(0,0,0,.4);font:600 13px/1.45 system-ui,sans-serif;opacity:0;transition:.25s ease";document.body.appendChild(el)}el.textContent=message;el.style.borderColor=type==="error"?"#704040":"#31583e";el.style.color=type==="error"?"#ffb4b4":"#f5f8f6";requestAnimationFrame(()=>{el.style.opacity="1";el.style.transform="translateX(-50%) translateY(0)"});clearTimeout(el._t);el._t=setTimeout(()=>{el.style.opacity="0";el.style.transform="translateX(-50%) translateY(20px)"},3200)}
-function bindApplicationForms(fb){document.querySelectorAll("form[data-application]").forEach(form=>{if(form.dataset.bound)return;form.dataset.bound="1";const status=form.querySelector(".app-form-status"),button=form.querySelector(".submit");form.addEventListener("submit",async e=>{e.preventDefault();if(!fb){toast("Firebase is not connected yet.","error");return}const user=fb.auth.currentUser;if(!user){toast("Please sign in before submitting your application.","error");return}const type=form.dataset.application;const data={userId:user.uid,type,status:"pending",createdAt:firebase.firestore.FieldValue.serverTimestamp()};form.querySelectorAll("[data-field]").forEach(input=>{data[input.dataset.field]=input.value.trim()});if(status){status.className="app-form-status";status.textContent=""}button.disabled=true;button.textContent="Submitting...";try{await fb.db.collection("applications").add(data);form.reset();if(status){status.className="app-form-status show success";status.textContent="Application submitted successfully. We’ll review your details and get back to you."}toast("Application submitted successfully.");}catch(err){if(status){status.className="app-form-status show error";status.textContent=err.message||"Could not submit your application. Please try again."}toast("Could not submit the application.","error")}finally{button.disabled=false;button.textContent=type==="creator"?"Submit Creator Application →":"Submit Brand Application →"}})})}
+function bindApplicationForms(fb){document.querySelectorAll("form[data-application]").forEach(form=>{if(form.dataset.bound)return;form.dataset.bound="1";const status=form.querySelector(".app-form-status"),button=form.querySelector(".submit");form.addEventListener("submit",async e=>{e.preventDefault();if(!fb){toast("Firebase is not connected yet.","error");return}const user=fb.auth.currentUser;if(!user){toast("Please sign in before submitting your application.","error");return}const type=form.dataset.application;
+      const now=new Date();
+      const date=now.toISOString().slice(0,10).replaceAll("-","");
+      const rand=Math.floor(1000+Math.random()*9000);
+      const ticketId="CXB-"+date+"-"+rand;
+      const data={userId:user.uid,type,status:"pending",ticketId,createdAt:firebase.firestore.FieldValue.serverTimestamp()};form.querySelectorAll("[data-field]").forEach(input=>{data[input.dataset.field]=input.value.trim()});if(status){status.className="app-form-status";status.textContent=""}button.disabled=true;button.textContent="Submitting...";try{await fb.db.collection("applications").add(data);form.reset();if(status){status.className="app-form-status show success";status.textContent="Application submitted successfully. We’ll review your details and get back to you."}showApplicationSuccess(ticketId);
+        toast("Application submitted successfully.");}catch(err){if(status){status.className="app-form-status show error";status.textContent=err.message||"Could not submit your application. Please try again."}toast("Could not submit the application.","error")}finally{button.disabled=false;button.textContent=type==="creator"?"Submit Creator Application →":"Submit Brand Application →"}})})}
 function bind(fb){
   const drawer=document.getElementById("siteDrawer"),menu=document.getElementById("siteMenuBtn");
   if(menu&&!menu.dataset.bound){menu.dataset.bound="1";menu.addEventListener("click",e=>{e.stopPropagation();const open=drawer.classList.toggle("open");menu.setAttribute("aria-expanded",open)});document.addEventListener("click",e=>{if(!e.target.closest("#siteMenuBtn")&&!e.target.closest("#siteDrawer"))drawer.classList.remove("open")})}
