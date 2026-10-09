@@ -21,8 +21,8 @@ function header(){
   const old=document.querySelector("body>header");if(old)old.remove();
   document.querySelectorAll(".top").forEach(e=>e.classList.add("legacy-hidden"));
   const current=location.pathname.split("/").pop()||"index.html";
-  const nav=[["index.html","Home"],["about.html","About"],["services.html","Services"],["contact.html","Contact"],...(profile&&profile.signedIn?[["chat.html","Chat"]]:[])];
   const profile=getProfile();
+  const nav=[["index.html","Home"],["about.html","About"],["services.html","Services"],["contact.html","Contact"],...(profile&&profile.signedIn?[["chat.html","Chat"]]:[])];
   const account=profile
     ? '<div class="site-profile"><button class="site-profile-btn" id="siteProfileBtn"><span class="site-avatar">'+initials(profile.name,profile.email)+'</span>Profile</button><div class="site-profile-menu" id="siteProfileMenu"><a href="chat.html">Chat</a><button id="siteSignOut">Sign out</button></div></div>'
     : '<a class="site-account" href="#" data-auth="signin">Sign in</a><a class="site-account signup" href="#" data-auth="signup">Sign up</a>';
