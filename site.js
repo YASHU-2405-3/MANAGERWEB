@@ -66,6 +66,7 @@ async function init(){
   header();modal();bind(fb);
 }
 
+function authErrorMessage(err){const code=err?.code||"";if(code==="auth/invalid-credential"||code==="auth/wrong-password"||code==="auth/user-not-found")return "Email ya password galat hai. Dobara check karein.";if(code==="auth/invalid-email")return "Email address sahi format mein daalein.";if(code==="auth/too-many-requests")return "Bahut attempts ho gaye. Thodi der baad try karein.";if(code==="auth/network-request-failed")return "Internet connection check karke dobara try karein.";if(code==="auth/email-already-in-use")return "Is email se account pehle se bana hua hai. Sign in karein.";if(code==="auth/weak-password")return "Password kam se kam 6 characters ka rakhein.";return err?.message||"Sign in nahi ho saka. Dobara try karein.";}
 function toast(message,type="success"){let el=document.getElementById("siteToast");if(!el){el=document.createElement("div");el.id="siteToast";el.style.cssText="position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);z-index:500;max-width:min(92vw,520px);padding:12px 16px;border:1px solid #31583e;border-radius:12px;background:#0b1913;color:#f5f8f6;box-shadow:0 18px 45px rgba(0,0,0,.4);font:600 13px/1.45 system-ui,sans-serif;opacity:0;transition:.25s ease";document.body.appendChild(el)}el.textContent=message;el.style.borderColor=type==="error"?"#704040":"#31583e";el.style.color=type==="error"?"#ffb4b4":"#f5f8f6";requestAnimationFrame(()=>{el.style.opacity="1";el.style.transform="translateX(-50%) translateY(0)"});clearTimeout(el._t);el._t=setTimeout(()=>{el.style.opacity="0";el.style.transform="translateX(-50%) translateY(20px)"},3200)}
 function bindApplicationForms(fb){document.querySelectorAll("form[data-application]").forEach(form=>{if(form.dataset.bound)return;form.dataset.bound="1";const status=form.querySelector(".app-form-status"),button=form.querySelector(".submit");form.addEventListener("submit",async e=>{e.preventDefault();if(!fb){toast("Firebase is not connected yet.","error");return}const user=fb.auth.currentUser;if(!user){toast("Please sign in before submitting your application.","error");return}const type=form.dataset.application;
       const now=new Date();
@@ -105,7 +106,7 @@ function bind(fb){
       modalEl.classList.remove("open");
       location.reload();
     }catch(err){
-      alert(err.message||"Authentication failed.");
+      toast(authErrorMessage(err),"error");
     }finally{submit.disabled=false;submit.textContent=mode==="signup"?"Create account":"Sign in"}
   });
   const profileBtn=document.getElementById("siteProfileBtn");
