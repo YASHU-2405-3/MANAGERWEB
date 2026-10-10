@@ -21,3 +21,5 @@ body{overflow-x:hidden}
 @media(max-width:650px){.site-nav{width:min(100% - 24px,1120px)}.site-logo{font-size:18px}.site-account{font-size:12px;padding:7px 9px}.site-drawer{right:12px}.site-auth-box{padding:22px}}
 @media(max-width:390px){.site-logo{font-size:17px}.site-account.signup{display:none}}
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+
+.site-profile-menu button{display:block;font:inherit;font-size:13px}.site-profile-menu button+button{margin-top:2px}#profileEditModal .site-auth-box{max-height:90dvh;overflow:auto}#profileEditModal textarea:focus{outline:2px solid #2dff91;outline-offset:1px}
