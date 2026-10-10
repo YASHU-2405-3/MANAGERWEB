@@ -24,7 +24,7 @@ function header(){
   const profile=getProfile();
   const nav=[["index.html","Home"],["about.html","About"],["services.html","Services"],["contact.html","Contact"],...(profile&&profile.signedIn?[["chat.html","Chat"]]:[])];
   const account=profile
-    ? '<div class="site-profile"><button class="site-profile-btn" id="siteProfileBtn"><span class="site-avatar">'+initials(profile.name,profile.email)+'</span>Profile</button><div class="site-profile-menu" id="siteProfileMenu"><a href="chat.html">Chat</a><button id="siteSignOut">Sign out</button></div></div>'
+    ? '<div class="site-profile"><button class="site-profile-btn" id="siteProfileBtn"><span class="site-avatar">'+initials(profile.name,profile.email)+'</span>Profile</button><div class="site-profile-menu" id="siteProfileMenu"><a href="chat.html">Chat</a><button id="siteOpenProfile">Edit profile</button><button id="siteSignOut">Sign out</button></div></div>'
     : '<a class="site-account" href="#" data-auth="signin">Sign in</a><a class="site-account signup" href="#" data-auth="signup">Sign up</a>';
   const links=nav.map(([href,label])=>'<a href="'+href+'"'+(current===href?' class="active"':'')+'>'+label+'</a>').join("");
   document.body.insertAdjacentHTML("afterbegin",'<header class="site-header"><nav class="site-nav"><a class="site-logo" href="index.html">Creator <span>X</span> Brand</a><div class="site-nav-right">'+account+'<button class="site-menu-btn" id="siteMenuBtn" aria-label="Open menu" aria-expanded="false"><span class="site-menu-icon"></span></button></div><div class="site-drawer" id="siteDrawer">'+links+'</div></nav></header>');
@@ -46,14 +46,14 @@ async function init(){
     fb.auth.onAuthStateChanged(async user=>{
       if(user){
         let p=getProfile();
-        let role="creator",name=user.displayName||user.email?.split("@")[0]||"User",isAdmin=false;
+        let role="creator",name=user.displayName||user.email?.split("@")[0]||"User",isAdmin=false,extra={};
         try{
           const snap=await fb.db.collection("users").doc(user.uid).get();
-          if(snap.exists){const d=snap.data();role=d.role||role;name=d.name||name}
+          if(snap.exists){const d=snap.data();role=d.role||role;name=d.name||name;extra={phone:d.phone||"",company:d.company||"",bio:d.bio||"",status:d.status||"Available"}}
           const token=await user.getIdTokenResult(true);
           isAdmin=token.claims.admin===true;
         }catch{}
-        localStorage.setItem(KEY,JSON.stringify({name,email:user.email,signedIn:true,uid:user.uid,role,isAdmin}));
+        localStorage.setItem(KEY,JSON.stringify({name,email:user.email,signedIn:true,uid:user.uid,role,isAdmin,...extra}));
         if(!document.querySelector(".site-header")){header();modal();bind(fb)}
         setAdminMenu(isAdmin);
       }else{
@@ -75,6 +75,15 @@ function bindApplicationForms(fb){document.querySelectorAll("form[data-applicati
       const ticketId="CXB-"+date+"-"+rand;
       const data={userId:user.uid,type,status:"pending",ticketId,createdAt:firebase.firestore.FieldValue.serverTimestamp()};form.querySelectorAll("[data-field]").forEach(input=>{data[input.dataset.field]=input.value.trim()});if(status){status.className="app-form-status";status.textContent=""}button.disabled=true;button.textContent="Submitting...";try{await fb.db.collection("applications").add(data);form.reset();if(status){status.className="app-form-status show success";status.textContent="Application submitted successfully. We’ll review your details and get back to you."}showApplicationSuccess(ticketId);
         toast("Application submitted successfully.");}catch(err){if(status){status.className="app-form-status show error";status.textContent=err.message||"Could not submit your application. Please try again."}toast("Could not submit the application.","error")}finally{button.disabled=false;button.textContent=type==="creator"?"Submit Creator Application →":"Submit Brand Application →"}})})}
+function openProfileModal(fb){
+  const user=fb?.auth?.currentUser;if(!user){toast("Please sign in first.","error");return}
+  let modal=document.getElementById("profileEditModal");
+  if(!modal){document.body.insertAdjacentHTML("beforeend",'<div class="site-auth-modal" id="profileEditModal" aria-hidden="true"><div class="site-auth-box"><div class="site-auth-head"><h2>Edit profile</h2><button class="site-auth-close" id="profileClose" aria-label="Close">×</button></div><form class="site-auth-form" id="profileForm"><label for="profileName">Full name</label><input id="profileName" maxlength="80" required autocomplete="name"><label for="profilePhone">Phone number</label><input id="profilePhone" type="tel" maxlength="20" autocomplete="tel" placeholder="+91…"><label for="profileCompany">Company / YouTube channel</label><input id="profileCompany" maxlength="100" placeholder="Optional"><label for="profileBio">About you</label><textarea id="profileBio" maxlength="300" rows="3" style="width:100%;padding:12px;border:1px solid #30483a;border-radius:9px;background:#06100c;color:#f5f8f6;font:inherit;resize:vertical" placeholder="Short intro (optional)"></textarea><label for="profileStatus">Status</label><select id="profileStatus"><option>Available</option><option>Busy</option><option>Open to collaborations</option></select><label for="profileEmail">Email (cannot be changed here)</label><input id="profileEmail" type="email" disabled><button class="site-auth-submit" id="profileSave" type="submit">Save profile</button></form></div></div>');modal=document.getElementById("profileEditModal");
+    modal.addEventListener("click",e=>{if(e.target===modal)modal.classList.remove("open")});document.getElementById("profileClose").onclick=()=>modal.classList.remove("open");
+    document.getElementById("profileForm").onsubmit=async e=>{e.preventDefault();const b=document.getElementById("profileSave");b.disabled=true;b.textContent="Saving…";const data={name:document.getElementById("profileName").value.trim(),phone:document.getElementById("profilePhone").value.trim(),company:document.getElementById("profileCompany").value.trim(),bio:document.getElementById("profileBio").value.trim(),status:document.getElementById("profileStatus").value,updatedAt:firebase.firestore.FieldValue.serverTimestamp()};try{await fb.db.collection("users").doc(user.uid).set({uid:user.uid,email:user.email,role:getProfile()?.role||"creator",...data},{merge:true});await user.updateProfile({displayName:data.name});localStorage.setItem(KEY,JSON.stringify({...getProfile(),...data,name:data.name,email:user.email,signedIn:true,uid:user.uid}));modal.classList.remove("open");toast("Profile saved.");location.reload()}catch(err){toast(err.message||"Could not save profile.","error")}finally{b.disabled=false;b.textContent="Save profile"}};
+  }
+  const p=getProfile()||{};document.getElementById("profileName").value=p.name||user.displayName||"";document.getElementById("profilePhone").value=p.phone||"";document.getElementById("profileCompany").value=p.company||"";document.getElementById("profileBio").value=p.bio||"";document.getElementById("profileStatus").value=p.status||"Available";document.getElementById("profileEmail").value=user.email||"";modal.classList.add("open");modal.setAttribute("aria-hidden","false");
+}
 function bind(fb){
   const drawer=document.getElementById("siteDrawer"),menu=document.getElementById("siteMenuBtn");
   if(menu&&!menu.dataset.bound){menu.dataset.bound="1";menu.addEventListener("click",e=>{e.stopPropagation();const open=drawer.classList.toggle("open");menu.setAttribute("aria-expanded",open)});document.addEventListener("click",e=>{if(!e.target.closest("#siteMenuBtn")&&!e.target.closest("#siteDrawer"))drawer.classList.remove("open")})}
@@ -114,6 +123,7 @@ function bind(fb){
     const pm=document.getElementById("siteProfileMenu");
     profileBtn.addEventListener("click",e=>{e.stopPropagation();pm.classList.toggle("open")});
     document.addEventListener("click",e=>{if(!e.target.closest(".site-profile"))pm.classList.remove("open")});
+    const editProfile=document.getElementById("siteOpenProfile");if(editProfile)editProfile.addEventListener("click",()=>openProfileModal(fb));
     const signout=document.getElementById("siteSignOut");
     signout.addEventListener("click",async()=>{try{if(fb)await fb.auth.signOut()}finally{localStorage.removeItem(KEY);location.reload()}})
   }
