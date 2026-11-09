@@ -31,6 +31,7 @@ function header(){
 }
 
 function modal(){
+  document.getElementById("siteAuthModal")?.remove();
   document.body.insertAdjacentHTML("beforeend",'<div class="site-auth-modal" id="siteAuthModal" aria-hidden="true"><div class="site-auth-box"><div class="site-auth-head"><h2 id="siteAuthTitle">Sign in</h2><button class="site-auth-close" id="siteAuthClose" aria-label="Close">×</button></div><div class="site-auth-tabs"><button class="site-auth-tab active" data-mode="signin">Sign in</button><button class="site-auth-tab" data-mode="signup">Sign up</button></div><form class="site-auth-form" id="siteAuthForm"><div id="siteNameWrap" style="display:none"><label for="siteName">Name</label><input id="siteName" autocomplete="name" placeholder="Your name"><label for="siteRole">I am</label><select id="siteRole"><option value="creator">Creator</option><option value="brand">Brand</option></select></div><label for="siteEmail">Email</label><input id="siteEmail" type="email" required autocomplete="email" placeholder="you@example.com"><label for="sitePassword">Password</label><input id="sitePassword" type="password" required autocomplete="current-password" placeholder="Your password"><button class="site-auth-submit" type="submit" id="siteAuthSubmit">Sign in</button><button type="button" id="siteGoogleSignIn" style="width:100%;margin-top:12px;padding:12px;border:1px solid #30483a;border-radius:10px;background:#10231a;color:#f5f8f6;font-weight:750;cursor:pointer">Continue with Google</button><button type="button" id="siteForgotPassword" style="display:none;width:100%;margin-top:10px;padding:10px;border:0;background:transparent;color:#b9f5cb;font-weight:750;cursor:pointer">Forgot password? Send reset email</button></form><p class="site-auth-note">Your account is secured by Firebase Authentication.</p></div></div>')
 }
 
@@ -42,28 +43,27 @@ async function initFirebase(){
 
 async function init(){
   const fb=await initFirebase();
-  if(fb){
-    fb.auth.onAuthStateChanged(async user=>{
-      if(user){
-        let p=getProfile();
-        let role="creator",name=user.displayName||user.email?.split("@")[0]||"User",isAdmin=false,extra={};
-        try{
-          const snap=await fb.db.collection("users").doc(user.uid).get();
-          if(snap.exists){const d=snap.data();role=d.role||role;name=d.name||name;extra={phone:d.phone||"",company:d.company||"",bio:d.bio||"",status:d.status||"Available"}}
-          const token=await user.getIdTokenResult(true);
-          isAdmin=token.claims.admin===true;
-        }catch{}
-        localStorage.setItem(KEY,JSON.stringify({name,email:user.email,signedIn:true,uid:user.uid,role,isAdmin,...extra}));
-        if(!document.querySelector(".site-header")){header();modal();bind(fb)}
-        setAdminMenu(isAdmin);
-      }else{
-        localStorage.removeItem(KEY);
-        if(!document.querySelector(".site-header")){header();modal();bind(fb)}
-        setAdminMenu(false);
-      }
-    });
-  }
-  header();modal();bind(fb);
+  if(!fb){header();modal();bind(null);setAdminMenu(false);return}
+  fb.auth.onAuthStateChanged(async user=>{
+    let isAdmin=false;
+    if(user){
+      let role="creator",name=user.displayName||user.email?.split("@")[0]||"User",extra={};
+      try{
+        const snap=await fb.db.collection("users").doc(user.uid).get();
+        if(snap.exists){const d=snap.data();role=d.role||role;name=d.name||name;extra={phone:d.phone||"",company:d.company||"",bio:d.bio||"",status:d.status||"Available"}}
+        const token=await user.getIdTokenResult(true);
+        isAdmin=token.claims.admin===true;
+      }catch{}
+      localStorage.setItem(KEY,JSON.stringify({name,email:user.email,signedIn:true,uid:user.uid,role,isAdmin,...extra}));
+    }else{
+      localStorage.removeItem(KEY);
+    }
+    // Rebuild the navigation from Firebase's confirmed auth state; do not trust stale local storage.
+    header();
+    modal();
+    bind(fb);
+    setAdminMenu(isAdmin);
+  });
 }
 
 function authErrorMessage(err){const code=err?.code||"";if(code==="auth/invalid-credential"||code==="auth/wrong-password"||code==="auth/user-not-found")return "Incorrect email or password. Please check and try again.";if(code==="auth/invalid-email")return "Enter a valid email address.";if(code==="auth/too-many-requests")return "Too many attempts. Please try again later.";if(code==="auth/network-request-failed")return "Check your internet connection and try again.";if(code==="auth/email-already-in-use")return "An account already exists with this email. Please sign in.";if(code==="auth/weak-password")return "Choose a password with at least 6 characters.";if(code==="auth/popup-closed-by-user")return "Google sign-in was cancelled.";if(code==="auth/popup-blocked")return "The sign-in popup was blocked. Allow popups and try again.";return err?.message||"Sign-in failed. Please try again."; }
@@ -82,7 +82,7 @@ function showApplicationSignInPrompt(type){
   sheet.classList.add("open");
 }
 
-function bindApplicationForms(fb){document.querySelectorAll("form[data-application]").forEach(form=>{if(form.dataset.bound)return;form.dataset.bound="1";const status=form.querySelector(".app-form-status"),button=form.querySelector(".submit");form.addEventListener("submit",async e=>{e.preventDefault();if(!fb){toast("Firebase is not connected yet.","error");return}const user=fb.auth.currentUser;if(!user){showApplicationSignInPrompt(type);return}const type=form.dataset.application;
+function bindApplicationForms(fb){document.querySelectorAll("form[data-application]").forEach(form=>{if(form.dataset.bound)return;form.dataset.bound="1";const status=form.querySelector(".app-form-status"),button=form.querySelector(".submit");form.addEventListener("submit",async e=>{e.preventDefault();if(!fb){toast("Firebase is not connected yet.","error");return}const type=form.dataset.application;const user=fb.auth.currentUser;if(!user){showApplicationSignInPrompt(type);return}
       const now=new Date();
       const date=now.toISOString().slice(0,10).replaceAll("-","");
       const rand=Math.floor(1000+Math.random()*9000);
