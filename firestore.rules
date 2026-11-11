@@ -30,6 +30,26 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
+
+    match /creatorVerifications/{requestId} {
+      allow create: if signedIn()
+        && request.resource.data.userId == request.auth.uid
+        && request.resource.data.status == 'pending'
+        && request.resource.data.platform in ['Instagram', 'YouTube']
+        && request.resource.data.profileUrl is string
+        && request.resource.data.profileUrl.size() > 8
+        && request.resource.data.createdAt == request.time;
+      allow read: if isAdmin() || (signedIn() && resource.data.userId == request.auth.uid);
+      allow update, delete: if isAdmin();
+    }
+
+    match /creatorProfiles/{profileId} {
+      allow read: if isAdmin()
+        || (resource.data.verified == true && resource.data.status == 'published')
+        || (signedIn() && resource.data.userId == request.auth.uid);
+      allow create, update, delete: if isAdmin();
+    }
+
     match /applications/{applicationId} {
       allow create: if signedIn()
         && request.resource.data.userId == request.auth.uid
