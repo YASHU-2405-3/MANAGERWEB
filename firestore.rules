@@ -55,7 +55,9 @@ service cloud.firestore {
     }
     match /applications/{applicationId} {
       allow create: if signedIn() && request.resource.data.userId == request.auth.uid
-        && request.resource.data.type in ['creator', 'brand'] && request.resource.data.status == 'pending'
+        && request.resource.data.type in ['creator', 'brand']
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == request.resource.data.type
+        && request.resource.data.status == 'pending'
         && request.resource.data.createdAt == request.time;
       allow read: if signedIn() && (resource.data.userId == request.auth.uid || isAdmin());
       allow update, delete: if isAdmin();
