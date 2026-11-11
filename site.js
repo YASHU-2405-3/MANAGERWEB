@@ -118,7 +118,8 @@ function bind(fb){
       const snap=await ref.get();
       if(!snap.exists)await ref.set({uid:user.uid,name:user.displayName||user.email?.split("@")[0]||"User",email:user.email,role:"creator",createdAt:firebase.firestore.FieldValue.serverTimestamp()});
       modalEl.classList.remove("open");
-      location.reload();
+      const creatorRedirect=mode==="signup"&&role.value==="creator"&&localStorage.getItem("cxbrCreatorSignupRedirect")==="1";
+      if(creatorRedirect){localStorage.removeItem("cxbrCreatorSignupRedirect");location.href="explore-creators.html#creatorSubmitSection"}else{location.reload()}
     }catch(err){toast(authErrorMessage(err),"error");console.error("Google sign-in failed",err.code,err.message)}
     finally{googleBtn.disabled=false;googleBtn.textContent="Continue with Google"}
   });
