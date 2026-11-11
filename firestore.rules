@@ -71,5 +71,48 @@ service cloud.firestore {
         allow update, delete: if isAdmin();
       }
     }
+    match /creatorProfiles/{profileId} {
+      allow read: if isAdmin() || resource.data.status == 'verified';
+      allow create: if isAdmin()
+        || (signedIn()
+          && request.resource.data.uid == request.auth.uid
+          && request.resource.data.status == 'pending'
+          && request.resource.data.keys().hasOnly([
+            'uid','name','email','category','platform','city','profileUrl','bio',
+            'followers','status','verificationMethod','createdAt','updatedAt'
+          ])
+          && request.resource.data.createdAt == request.time
+          && request.resource.data.updatedAt == request.time);
+      allow update: if isAdmin()
+        || (signedIn()
+          && resource.data.uid == request.auth.uid
+          && resource.data.status == 'pending'
+          && request.resource.data.uid == resource.data.uid
+          && request.resource.data.status == 'pending'
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+            'name','email','category','platform','city','profileUrl','bio','followers','updatedAt'
+          ]));
+      allow delete: if isAdmin();
+    }
+
+    match /contactMessages/{messageId} {
+      allow create: if request.resource.data.keys().hasOnly([
+          'name','email','type','message','status','createdAt'
+        ])
+        && request.resource.data.name is string
+        && request.resource.data.name.size() > 0
+        && request.resource.data.name.size() <= 100
+        && request.resource.data.email is string
+        && request.resource.data.email.size() > 3
+        && request.resource.data.email.size() <= 180
+        && request.resource.data.type in ['creator','brand','other']
+        && request.resource.data.message is string
+        && request.resource.data.message.size() >= 10
+        && request.resource.data.message.size() <= 3000
+        && request.resource.data.status == 'new'
+        && request.resource.data.createdAt == request.time;
+      allow read, update, delete: if isAdmin();
+    }
+
   }
 }
