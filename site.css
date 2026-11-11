@@ -43,47 +43,6 @@ body{overflow-x:hidden}
 .application-signin-foot{text-align:center;font-size:11px;color:#68796e;margin:15px 0 0}
 @media(min-width:700px){.application-signin-backdrop{align-items:center;padding:20px}.application-signin-sheet{border-bottom:1px solid #d2e0d7;border-radius:24px;transform:translateY(20px)}.application-signin-backdrop.open .application-signin-sheet{transform:translateY(0)}}
 
-/* Live Deal Tracker — responsive light theme */
-.deal-tracker-section{padding:76px 0;background:#f4f8f5;border-top:1px solid #e0e9e3;border-bottom:1px solid #e0e9e3;color:#1b2a22}
-.deal-heading-row{display:flex;align-items:flex-end;justify-content:space-between;gap:24px;margin-bottom:28px}
-.deal-kicker{display:inline-block;color:#1f8651;font-size:11px;font-weight:900;letter-spacing:.14em}
-.deal-heading-row h2{margin:10px 0 8px;font-size:clamp(28px,4vw,40px);letter-spacing:-1.3px;color:#1b2a22}
-.deal-heading-row h2 span{color:#238a55}.deal-heading-row p{margin:0;color:#617267;line-height:1.6}
-.deal-preview-label{display:flex;align-items:center;gap:10px;flex:none;padding:11px 14px;border:1px solid #d3e4d9;border-radius:12px;background:#fff}
-.deal-preview-dot{width:9px;height:9px;border-radius:50%;background:#238a55;box-shadow:0 0 0 4px #e5f3e9}
-.deal-preview-label strong,.deal-preview-label small{display:block}.deal-preview-label strong{font-size:10px;letter-spacing:.08em;color:#237b4d}.deal-preview-label small{font-size:10px;color:#738278;margin-top:3px}
-.deal-tracker-window{overflow:hidden;border:1px solid #dce7df;border-radius:18px;background:#fff;box-shadow:0 20px 60px rgba(22,52,34,.08)}
-.deal-browserbar{min-height:48px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;gap:12px;border-bottom:1px solid #e8eee9;background:#fbfdfb}
-.deal-browser-left{display:flex;align-items:center;gap:7px;min-width:0}.deal-window-dot{width:9px;height:9px;border-radius:50%;display:inline-block}
-.deal-window-dot.red{background:#f18a86}.deal-window-dot.yellow{background:#e8c46a}.deal-window-dot.green{background:#75c58e}
-.deal-browser-url{margin-left:7px;color:#718077;font-size:11px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.deal-browser-hint{font-size:10px;color:#738278;white-space:nowrap}
-.deal-stage-row{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:9px;padding:18px 18px 16px;border-bottom:1px solid #e8eee9}
-.deal-stage{min-width:0;min-height:82px;padding:10px 6px;border:1px solid #dce7df;border-radius:12px;background:#fff;color:#1b2a22;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:5px;cursor:pointer;transition:.18s ease}
-.deal-stage:hover{border-color:#92c5a4;transform:translateY(-1px)}.deal-stage small{font-size:10px;color:#76857a}.deal-stage strong{font-size:12px;line-height:1.25;text-align:center}.deal-stage em{font-size:10px;font-style:normal;color:#78877c}
-.deal-stage.is-done{border-color:#b8dfc4;background:#f4fbf6}.deal-stage.is-done small,.deal-stage.is-done em{color:#238a55}
-.deal-stage.is-active{border:2px solid #263b2e;background:#f2f8f4;box-shadow:inset 0 0 0 1px #fff}.deal-stage.is-active small,.deal-stage.is-active em{color:#238a55;font-weight:800}
-.deal-stage.is-upcoming{background:#fbfcfb;color:#637268}
-.deal-detail-panel{padding:24px 22px 18px}.deal-detail-head{display:flex;align-items:center;justify-content:space-between;gap:18px;padding-bottom:18px;border-bottom:1px solid #e8eee9}
-.deal-step-eyebrow{font-size:10px;color:#238a55;font-weight:900;letter-spacing:.09em}.deal-detail-head h3{margin:7px 0 6px;color:#1b2a22;font-size:clamp(20px,3vw,24px);letter-spacing:-.5px}
-.deal-detail-head p{max-width:680px;margin:0;color:#68786d;font-size:13px;line-height:1.6}.deal-detail-controls{display:flex;gap:8px;flex:none}
-.deal-detail-controls button{padding:9px 12px;border:1px solid #dce7df;border-radius:9px;background:#fff;color:#26372d;font-size:12px;font-weight:750;cursor:pointer}
-.deal-detail-controls button:hover:not(:disabled){border-color:#8fbea0;background:#f4faf6}.deal-detail-controls button:disabled{opacity:.4;cursor:not-allowed}
-.deal-post-card{margin:18px 0;padding:14px 16px 12px;border:1px solid #d6e6f8;border-radius:13px;background:#f5f9ff}
-.deal-post-url{display:flex;justify-content:space-between;gap:10px;padding-bottom:11px;border-bottom:1px solid #dce9fa;color:#27548e;font-size:11px;font-weight:800}
-.deal-verified{color:#238a55;white-space:nowrap}.deal-metrics{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding-top:11px;text-align:center}
-.deal-metrics small{display:block;color:#6e7f91;font-size:10px}.deal-metrics strong{display:block;margin-top:3px;color:#1b2a22;font-size:13px}.deal-metrics div:last-child strong{color:#238a55}
-.deal-sample-note{margin:10px 0 0;text-align:center;color:#7c8997;font-size:9px;line-height:1.4}
-.deal-action-row{display:flex;align-items:center;justify-content:space-between;gap:14px;flex-wrap:wrap;padding-top:2px}
-.deal-participants{display:flex;gap:8px;flex-wrap:wrap}.deal-participants span{padding:7px 10px;border-radius:8px;background:#f4f7f5;color:#58675d;font-size:10px}.deal-participants strong{color:#26372d}
-.deal-preview-actions{display:flex;gap:8px;flex-wrap:wrap}.deal-preview-actions button{padding:10px 13px;border-radius:9px;font-size:11px;font-weight:850;cursor:pointer}
-.deal-approve{border:1px solid #1f9657;background:#1f9657;color:#fff}.deal-approve:hover{background:#187947}
-.deal-revision{border:1px solid #dce7df;background:#fff;color:#405247}.deal-revision:hover{background:#f4f8f5;border-color:#bdcfc3}
-.deal-feedback{min-height:18px;margin:12px 0 0;color:#708075;font-size:10px;line-height:1.5}
-.deal-tracker-footnote{margin:12px 0 0;color:#77857b;font-size:10px;line-height:1.6}
-@media(max-width:850px){.deal-heading-row{align-items:flex-start;flex-direction:column}.deal-stage-row{grid-template-columns:repeat(7,118px);overflow-x:auto}.deal-browser-hint{display:none}}
-@media(max-width:600px){.deal-tracker-section{padding:54px 0}.deal-browserbar{padding:0 12px}.deal-stage-row{padding:12px;gap:7px}.deal-detail-panel{padding:18px 14px}.deal-detail-head{align-items:flex-start;flex-direction:column}.deal-detail-controls{width:100%}.deal-detail-controls button{flex:1}.deal-post-card{padding:12px 10px}.deal-post-url{font-size:10px}.deal-preview-actions{width:100%}.deal-preview-actions button{flex:1}.deal-participants{width:100%}}
-
-
 /* Global navigation contrast fix: dark header always uses light logo and readable controls. */
 .site-header{background:rgba(9,30,22,.96)!important;border-bottom-color:rgba(255,255,255,.13)!important}
 .site-logo{color:#f3faf5!important}
