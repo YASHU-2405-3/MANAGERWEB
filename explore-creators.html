@@ -16,13 +16,13 @@ auth.onAuthStateChanged(async user=>{
  try{
   const userDoc=await db.collection("users").doc(user.uid).get();
   const role=userDoc.exists?userDoc.data().role:"creator";
-  if(role!=="creator"){$("profileStatus").textContent="Profile submission is only available to Creator accounts.";return}
+  if(!userDoc.exists||role!=="creator"){$("profileStatus").textContent="Profile submission is only available to Creator accounts.";return}
   panel.classList.add("open");$("profileName").value=(userDoc.exists&&userDoc.data().name)||user.displayName||"";
   const existing=await db.collection("creatorProfiles").doc(user.uid).get();
   if(existing.exists){
    const p=existing.data();$("profileCategory").value=p.category||"";$("profilePlatform").value=p.platform||"Instagram";$("profileCity").value=p.city||"";$("profileUrl").value=p.profileUrl||"";$("profileBio").value=p.bio||"";
-   $("profileStatus").textContent=p.status==="verified"?"Verified — your profile is visible in Explore.":p.status==="rejected"?"Not approved. Contact support before submitting again.":"Pending Admin review. Your profile is not public yet.";
-   $("profileSubmit").disabled=p.status==="verified"||p.status==="pending";
+   $("profileStatus").textContent=p.status==="verified"?"Verified — your profile is visible in Explore.":p.status==="rejected"?"Not approved. Contact support to request another review.":"Pending Admin review. Your profile is not public yet.";
+   $("profileSubmit").disabled=p.status==="verified"||p.status==="pending"||p.status==="rejected";
   }else{$("profileStatus").textContent="Submit your profile for Admin review. Target review time: within 24 hours.";$("profileSubmit").disabled=false}
  }catch(e){$("profileStatus").textContent="Could not check Creator account. Refresh and sign in again.";console.error(e)}
 });
