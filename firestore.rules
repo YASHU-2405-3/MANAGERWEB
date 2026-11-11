@@ -46,7 +46,7 @@ service cloud.firestore {
             'name','platform','profileUrl','category','secondaryCategory','city','language',
             'bio','followers','avatarUrl','updatedAt','email','channelLinks'
           ]))
-        || (signedIn()
+        || (isCreatorAccount()
           && resource.data.uid == request.auth.uid
           && request.resource.data.uid == resource.data.uid
           && resource.data.status == 'verified'
