@@ -27,7 +27,12 @@ service cloud.firestore {
           && request.resource.data.name.size() > 0
           && request.resource.data.profileUrl is string
           && request.resource.data.profileUrl.matches('https://.*')
-          && request.resource.data.category is string);
+          && request.resource.data.category is string
+          && request.resource.data.channelLinks is map
+          && request.resource.data.channelLinks.keys().hasOnly(['instagram','youtube','other'])
+          && (request.resource.data.channelLinks.instagram == '' || request.resource.data.channelLinks.instagram.matches('https://.*'))
+          && (request.resource.data.channelLinks.youtube == '' || request.resource.data.channelLinks.youtube.matches('https://.*'))
+          && (request.resource.data.channelLinks.other == '' || request.resource.data.channelLinks.other.matches('https://.*')));
 
       allow update: if isAdmin()
         || (signedIn()
