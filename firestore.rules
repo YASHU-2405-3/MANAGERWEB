@@ -12,6 +12,7 @@ service cloud.firestore {
       allow update: if signedIn() && request.auth.uid == userId && request.resource.data.role == resource.data.role;
       allow delete: if isAdmin();
     }
+    function isCreatorAccount() { return signedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'creator'; }
     match /creatorProfiles/{creatorId} {
       allow read: if isAdmin()
         || (resource.data.isPublic == true && resource.data.status == 'verified')
@@ -19,7 +20,7 @@ service cloud.firestore {
 
       // A creator may submit their own public profile for review, never self-publish.
       allow create: if isAdmin()
-        || (signedIn()
+        || (isCreatorAccount()
           && request.resource.data.uid == request.auth.uid
           && request.resource.data.status == 'pending'
           && request.resource.data.isPublic == false
@@ -35,7 +36,7 @@ service cloud.firestore {
           && (request.resource.data.channelLinks.other == '' || request.resource.data.channelLinks.other.matches('https://.*')));
 
       allow update: if isAdmin()
-        || (signedIn()
+        || (isCreatorAccount()
           && resource.data.uid == request.auth.uid
           && request.resource.data.uid == resource.data.uid
           && resource.data.status == 'pending'
