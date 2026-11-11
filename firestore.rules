@@ -57,6 +57,16 @@ service cloud.firestore {
             'bio','followers','avatarUrl','updatedAt','email','channelLinks','status','isPublic'
           ]));
 
+        || (isCreatorAccount()
+          && resource.data.uid == request.auth.uid
+          && request.resource.data.uid == resource.data.uid
+          && resource.data.status == 'rejected'
+          && request.resource.data.status == 'pending'
+          && request.resource.data.isPublic == false
+          && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
+            'name','platform','profileUrl','category','secondaryCategory','city','language',
+            'bio','followers','avatarUrl','updatedAt','email','channelLinks','status','isPublic'
+          ]));
       allow delete: if isAdmin();
     }
     match /applications/{applicationId} {
