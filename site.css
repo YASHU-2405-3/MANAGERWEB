@@ -82,3 +82,16 @@ body{overflow-x:hidden}
 .deal-tracker-footnote{margin:12px 0 0;color:#77857b;font-size:10px;line-height:1.6}
 @media(max-width:850px){.deal-heading-row{align-items:flex-start;flex-direction:column}.deal-stage-row{grid-template-columns:repeat(7,118px);overflow-x:auto}.deal-browser-hint{display:none}}
 @media(max-width:600px){.deal-tracker-section{padding:54px 0}.deal-browserbar{padding:0 12px}.deal-stage-row{padding:12px;gap:7px}.deal-detail-panel{padding:18px 14px}.deal-detail-head{align-items:flex-start;flex-direction:column}.deal-detail-controls{width:100%}.deal-detail-controls button{flex:1}.deal-post-card{padding:12px 10px}.deal-post-url{font-size:10px}.deal-preview-actions{width:100%}.deal-preview-actions button{flex:1}.deal-participants{width:100%}}
+
+
+/* Global navigation contrast fix: dark header always uses light logo and readable controls. */
+.site-header{background:rgba(9,30,22,.96)!important;border-bottom-color:rgba(255,255,255,.13)!important}
+.site-logo{color:#f3faf5!important}
+.site-logo span{color:#79dda2!important}
+.site-account{background:#f7faf8!important;color:#173326!important;border-color:#d5e3d9!important}
+.site-account:hover{background:#ffffff!important;color:#10271e!important}
+.site-account.signup{background:#1b9658!important;color:#ffffff!important;border-color:#1b9658!important}
+.site-menu-btn{background:#f7faf8!important;color:#14271e!important;border-color:#d5e3d9!important}
+.site-profile-btn{background:#f7faf8!important;color:#14271e!important}
+.site-profile-menu{background:#ffffff!important;color:#14271e!important}
+@media(max-width:520px){.site-nav{width:calc(100% - 24px);min-height:64px}.site-logo{font-size:18px}.site-nav-right{gap:7px}}
