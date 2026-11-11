@@ -12,14 +12,17 @@ service cloud.firestore {
       allow update: if signedIn() && request.auth.uid == userId && request.resource.data.role == resource.data.role;
       allow delete: if isAdmin();
     }
-    match /creatorProfiles/{creatorId} {
+    function isCreatorAccount() {
+      return signedIn()
+        && exists(/databases/$(database)/documents/users/$(request.auth.uid))
+        && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'creator';
+    }
+    match /creatorProfiles/{profileId} {
       allow read: if isAdmin()
-        || resource.data.isPublic == true
+        || (resource.data.status == 'verified' && resource.data.isPublic == true)
         || (signedIn() && resource.data.uid == request.auth.uid);
-
-      // A creator may submit their own public profile for review, never self-publish.
       allow create: if isAdmin()
-        || (signedIn()
+        || (isCreatorAccount()
           && request.resource.data.uid == request.auth.uid
           && request.resource.data.status == 'pending'
           && request.resource.data.isPublic == false
@@ -27,91 +30,18 @@ service cloud.firestore {
           && request.resource.data.name.size() > 0
           && request.resource.data.profileUrl is string
           && request.resource.data.profileUrl.matches('https://.*')
-          && request.resource.data.category is string);
-
+          && request.resource.data.category is string
+          && request.resource.data.createdAt == request.time);
       allow update: if isAdmin()
-        || (signedIn()
-          && resource.data.uid == request.auth.uid
-          && request.resource.data.uid == resource.data.uid
-          && resource.data.status == 'pending'
-          && request.resource.data.status == 'pending'
-          && request.resource.data.isPublic == false
-          && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
-            'name','platform','profileUrl','category','secondaryCategory','city','language',
-            'bio','followers','avatarUrl','updatedAt','email'
-          ]))
-        || (signedIn()
-          && resource.data.uid == request.auth.uid
-          && request.resource.data.uid == resource.data.uid
-          && resource.data.status == 'verified'
-          && request.resource.data.status == 'pending'
-          && request.resource.data.isPublic == false
-          && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
-            'name','platform','profileUrl','category','secondaryCategory','city','language',
-            'bio','followers','avatarUrl','updatedAt','email','status','isPublic'
-          ]));
-
-      allow delete: if isAdmin();
-    }
-    match /applications/{applicationId} {
-      allow create: if signedIn() && request.resource.data.userId == request.auth.uid
-        && request.resource.data.type in ['creator', 'brand'] && request.resource.data.status == 'pending'
-        && request.resource.data.createdAt == request.time;
-      allow read: if signedIn() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow update, delete: if isAdmin();
-    }
-    match /conversations/{conversationId} {
-      allow create: if isAdmin() || (signedIn()
-        && request.resource.data.keys().hasOnly(['type','source','status','userId','customerName','customerEmail','customerRole','participantIds','participantNames','participantEmails','lastMessage','createdAt','updatedAt'])
-        && request.resource.data.source == 'support' && request.resource.data.status == 'open'
-        && request.resource.data.userId == request.auth.uid && request.resource.data.type in ['creator','brand']
-        && request.resource.data.customerRole in ['creator','brand']
-        && request.resource.data.customerEmail == request.auth.token.email
-        && request.resource.data.participantIds == [request.auth.uid]
-        && request.resource.data.participantNames == [request.resource.data.customerName]
-        && request.resource.data.participantEmails == [request.auth.token.email]
-        && request.resource.data.lastMessage == '' && request.resource.data.createdAt == request.time
-        && request.resource.data.updatedAt == request.time);
-      allow read: if signedIn() && (request.auth.uid in resource.data.participantIds || isAdmin());
-      allow update: if isAdmin() || (signedIn() && request.auth.uid in resource.data.participantIds
-        && ((resource.data.source == 'support' && resource.data.status == 'open') || (resource.data.source == 'application' && resource.data.status == 'approved'))
-        && request.resource.data.diff(resource.data).affectedKeys().hasOnly(['lastMessage','updatedAt','customerName','customerEmail','customerRole'])
-        && request.resource.data.participantIds == resource.data.participantIds
-        && request.resource.data.status == resource.data.status && request.resource.data.source == resource.data.source
-        && request.resource.data.userId == resource.data.userId);
-      allow delete: if isAdmin();
-      match /messages/{messageId} {
-        allow create: if isAdmin() || (signedIn() && request.auth.uid == request.resource.data.senderId
-          && isParticipant(conversationId)
-          && ((get(/databases/$(database)/documents/conversations/$(conversationId)).data.source == 'support' && get(/databases/$(database)/documents/conversations/$(conversationId)).data.status == 'open')
-            || (get(/databases/$(database)/documents/conversations/$(conversationId)).data.source == 'application' && get(/databases/$(database)/documents/conversations/$(conversationId)).data.status == 'approved'))
-          && request.resource.data.keys().hasOnly(['text','senderId','senderName','senderEmail','senderRole','createdAt'])
-          && request.resource.data.text is string && request.resource.data.text.size() > 0
-          && request.resource.data.text.size() <= 2000 && request.resource.data.createdAt == request.time);
-        allow read: if isAdmin() || isParticipant(conversationId);
-        allow update, delete: if isAdmin();
-      }
-    }
-    match /creatorProfiles/{profileId} {
-      allow read: if isAdmin() || resource.data.status == 'verified';
-      allow create: if isAdmin()
-        || (signedIn()
-          && request.resource.data.uid == request.auth.uid
-          && request.resource.data.status == 'pending'
-          && request.resource.data.keys().hasOnly([
-            'uid','name','email','category','platform','city','profileUrl','bio',
-            'followers','status','verificationMethod','createdAt','updatedAt'
-          ])
-          && request.resource.data.createdAt == request.time
-          && request.resource.data.updatedAt == request.time);
-      allow update: if isAdmin()
-        || (signedIn()
+        || (isCreatorAccount()
           && resource.data.uid == request.auth.uid
           && resource.data.status == 'pending'
           && request.resource.data.uid == resource.data.uid
           && request.resource.data.status == 'pending'
+          && request.resource.data.isPublic == false
           && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
-            'name','email','category','platform','city','profileUrl','bio','followers','updatedAt'
+            'name','email','category','platform','city','profileUrl','socialLinks',
+            'bio','followers','updatedAt','reviewRequestedAt'
           ]));
       allow delete: if isAdmin();
     }
