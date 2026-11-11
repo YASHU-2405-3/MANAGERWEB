@@ -50,17 +50,6 @@
 <div class="view" id="view-creators">
 <div class="welcome"><div><div class="eyebrow">Public directory</div><h2>Creator profiles</h2><p>Add a creator after reviewing their public profile. Only verified profiles appear in Explore Creators.</p></div></div>
 <div class="columns" style="grid-template-columns:1fr"><section class="panel"><div class="panelhead"><h3>Review creator applications</h3><span class="badge">Approval required</span></div><div class="panelbody"><p class="muted">Creators submit their own profiles from the Creator account. Review their public channel, niche and profile details here. Only your approval publishes a profile.</p><div class="stats" style="margin-top:16px"><div class="stat"><div class="statlabel">Pending</div><div id="creatorPendingMetric" class="statvalue amber">0</div></div><div class="stat"><div class="statlabel">Verified / public</div><div id="creatorVerifiedMetric" class="statvalue green">0</div></div><div class="stat"><div class="statlabel">Rejected</div><div id="creatorRejectedMetric" class="statvalue">0</div></div></div></div></section>
-<label>Creator display name</label><input class="field" id="adminCreatorName" required maxlength="90" placeholder="Creator name">
-<label style="display:block;margin:12px 0 6px">Email (optional)</label><input class="field" id="adminCreatorEmail" type="email" maxlength="180" placeholder="creator@example.com">
-<label style="display:block;margin:12px 0 6px">Category</label><select class="field" id="adminCreatorCategory" required><option value="">Choose category</option><option>Fashion</option><option>Fitness</option><option>Nutrition</option><option>Beauty</option><option>Technology</option><option>Gaming</option><option>Travel</option><option>Photography</option><option>Food</option><option>Education</option><option>Lifestyle</option><option>Other</option></select>
-<label style="display:block;margin:12px 0 6px">Platform</label><select class="field" id="adminCreatorPlatform"><option>Instagram</option><option>YouTube</option><option>Other</option></select>
-<label style="display:block;margin:12px 0 6px">City</label><input class="field" id="adminCreatorCity" required maxlength="80" placeholder="City, India">
-<label style="display:block;margin:12px 0 6px">Public profile URL</label><input class="field" id="adminCreatorUrl" type="url" required placeholder="https://…">
-<label style="display:block;margin:12px 0 6px">Bio</label><textarea class="field" id="adminCreatorBio" maxlength="450" rows="3" placeholder="Short creator introduction"></textarea>
-<label style="display:block;margin:12px 0 6px">Followers (optional, only if checked)</label><input class="field" id="adminCreatorFollowers" type="number" min="0" placeholder="Leave blank if not verified">
-<label style="display:flex;align-items:center;gap:8px;margin:14px 0"><input id="adminCreatorVerified" type="checkbox" style="width:auto"> Mark verified after manual review</label>
-<button class="btn primary" type="submit">Add creator profile</button><div class="muted" id="creatorAdminStatus" role="status" style="margin-top:10px"></div>
-</form></div></section>
 <section class="panel"><div class="panelhead"><h3>Creator review queue</h3><span class="muted" id="creatorAdminCount">0 profiles</span></div><div class="searchwrap"><input id="adminCreatorSearch" class="field" placeholder="Search creator, category or city…"></div><div id="adminCreatorList" class="ticketlist"><div class="placeholder">Loading creator profiles…</div></div></section>
 </div></div>
 <div class="view" id="view-chats">
