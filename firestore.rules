@@ -38,7 +38,7 @@ service cloud.firestore {
           && request.resource.data.isPublic == false
           && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
             'name','platform','profileUrl','category','secondaryCategory','city','language',
-            'bio','followers','avatarUrl','updatedAt','email'
+            'bio','followers','avatarUrl','updatedAt','email','channelLinks'
           ]))
         || (signedIn()
           && resource.data.uid == request.auth.uid
