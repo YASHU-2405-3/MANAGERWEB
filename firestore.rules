@@ -93,6 +93,10 @@ service cloud.firestore {
         allow update, delete: if isAdmin();
       }
     }
+    // Deal records are private operational data. Only trusted admins can create or manage them.
+    match /deals/{dealId} {
+      allow read, create, update, delete: if isAdmin();
+    }
     match /contactMessages/{messageId} {
       allow create: if request.resource.data.keys().hasOnly([
           'name','email','type','message','status','createdAt'
