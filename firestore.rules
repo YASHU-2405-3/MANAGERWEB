@@ -15,8 +15,8 @@ service cloud.firestore {
     function isCreatorAccount() { return signedIn() && exists(/databases/$(database)/documents/users/$(request.auth.uid)) && get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'creator'; }
     match /creatorProfiles/{creatorId} {
       allow read: if isAdmin()
-        || (resource.data.isPublic == true && resource.data.status == 'verified')
-        || (signedIn() && resource.data.uid == request.auth.uid);
+        || (signedIn() && creatorId == request.auth.uid)
+        || (resource.data.isPublic == true && resource.data.status == 'verified');
 
       // A creator may submit their own public profile for review, never self-publish.
       allow create: if isAdmin()
