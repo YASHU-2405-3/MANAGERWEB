@@ -50,6 +50,24 @@
     @media(max-width:520px){.pipeline-section,.audience-section{padding:58px 0}.pipeline-shell{border-radius:17px}.pipeline-shell-top{padding:0 12px;font-size:8px}.pipeline-steps{grid-template-columns:repeat(4,minmax(0,1fr));gap:5px;padding:12px}.pipeline-step{padding:9px 7px}.pipeline-step b{font-size:10px}.pipeline-step span{font-size:8px}.pipeline-progress{margin:0 12px 12px}.pipeline-detail{margin:0 12px;padding:17px;gap:17px}.pipeline-controls{align-items:flex-start;flex-direction:column;padding:13px 12px}.pipeline-controls>div{width:100%}.pipeline-control-btn{flex:1;padding:8px 6px;font-size:9px}.audience-content{padding:18px}.audience-feature-grid article{min-height:125px;padding:13px}.audience-tab{padding:9px 14px;font-size:11px}}
     @media(prefers-reduced-motion:reduce){.pipeline-step,.pipeline-progress span,.pipeline-demo-label i,.pipeline-running i{animation:none!important;transition:none!important}}
 
+<style>
+.dealroom-section{padding:76px 0;background:#fbfcfb;border-bottom:1px solid var(--home-line)}
+.dealroom-shell{border:1px solid #dce7df;border-radius:22px;background:#fff;overflow:hidden;box-shadow:0 18px 48px rgba(16,39,30,.08)}
+.dealroom-top{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:15px 19px;background:#f7faf8;border-bottom:1px solid #e6eee8;color:#53675a;font-size:10px;font-weight:850;letter-spacing:.08em}
+.dealroom-live{color:#137a49}.dealroom-live:before{content:"";display:inline-block;width:7px;height:7px;margin-right:7px;border-radius:50%;background:#1b9658;box-shadow:0 0 0 4px #1b96551b}
+.dealroom-stages{display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid #e7eee8}
+.dealroom-stage{padding:14px 8px;border:0;border-right:1px solid #edf1ed;background:#fff;color:#718077;cursor:pointer;font-size:10px}
+.dealroom-stage:last-child{border-right:0}.dealroom-stage b{display:block;margin-bottom:5px;color:#263b2d;font-size:11px}.dealroom-stage.active{background:#edf7ef;box-shadow:inset 0 -3px #16814c;color:#16814c}
+.dealroom-content{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;padding:24px}
+.dealroom-main{padding:21px;border:1px solid #e4ece6;border-radius:15px;background:linear-gradient(135deg,#fff,#f8fbf8)}
+.dealroom-kicker{font-size:9px;font-weight:900;letter-spacing:.14em;color:#16814c}.dealroom-main h3{margin:9px 0;font-size:clamp(21px,3vw,29px);letter-spacing:-.05em}.dealroom-main p{margin:0;color:#607267;font-size:12px;line-height:1.7}
+.dealroom-facts{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:17px}.dealroom-fact{padding:12px;border:1px solid #e5ece6;border-radius:10px;background:#fff}.dealroom-fact small{display:block;color:#738178;font-size:9px}.dealroom-fact b{display:block;margin-top:5px;font-size:11px}
+.dealroom-side{display:flex;flex-direction:column;gap:10px;justify-content:center}.dealroom-side article{padding:14px;border:1px solid #e4ece6;border-radius:12px;background:#fff}.dealroom-side small{color:#16814c;font-size:9px;font-weight:900;letter-spacing:.1em}.dealroom-side strong{display:block;margin:5px 0;font-size:12px}.dealroom-side p{margin:0;color:#718077;font-size:10px;line-height:1.5}
+.dealroom-controls{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 19px;border-top:1px solid #e7eee8;color:#718077;font-size:10px}.dealroom-controls div{display:flex;gap:7px}.dealroom-controls button{padding:9px 12px;border:1px solid #dce7df;border-radius:9px;background:#fff;color:#314638;font-weight:800;cursor:pointer}.dealroom-controls button:last-child{background:#147a49;border-color:#147a49;color:#fff}
+.dealroom-note{margin:11px 0 0;color:#718077;font-size:10px;line-height:1.6}
+@media(max-width:700px){.dealroom-section{padding:58px 0}.dealroom-top{padding:13px;font-size:8px}.dealroom-stage{font-size:8px;padding:11px 4px}.dealroom-stage b{font-size:9px}.dealroom-content{grid-template-columns:1fr;padding:13px}.dealroom-main{padding:17px}.dealroom-controls{align-items:flex-start;flex-direction:column;padding:13px}.dealroom-controls div{width:100%}.dealroom-controls button{flex:1}}
+@media(prefers-reduced-motion:reduce){.dealroom-stage{transition:none!important}}
+</style>
   </style>
 </head>
 <body>
@@ -131,7 +149,28 @@
         <p class="pipeline-footnote">This is an animated product preview only. It does not represent a real campaign, verified creator, shipment, approval, payment or escrow transaction.</p>
       </div>
     </section>
-    <section class="audience-section" id="audience-paths">
+    <section class="dealroom-section" id="deal-room-preview" aria-labelledby="dealroom-title">
+<div class="home-wrap">
+<div class="pipeline-head"><div><span class="section-kicker">Inside a collaboration</span><h2 id="dealroom-title">A deal room that keeps every detail in view.</h2><p>Explore the practical steps a creator and brand can follow, from agreed scope to final handover.</p></div><span class="pipeline-demo-label"><i></i> Guided sample · Interactive</span></div>
+<div class="dealroom-shell" id="dealRoomDemo">
+<div class="dealroom-top"><span>CREATOR X BRAND / DEAL ROOM</span><span class="dealroom-live">PREVIEW MODE</span></div>
+<div class="dealroom-stages" role="group" aria-label="Deal room stages">
+<button class="dealroom-stage active" data-deal-stage="0" aria-pressed="true"><b>01 · Match</b>Brief & fit</button>
+<button class="dealroom-stage" data-deal-stage="1" aria-pressed="false"><b>02 · Terms</b>Scope lock</button>
+<button class="dealroom-stage" data-deal-stage="2" aria-pressed="false"><b>03 · Fulfilment</b>Dispatch</button>
+<button class="dealroom-stage" data-deal-stage="3" aria-pressed="false"><b>04 · Review</b>Feedback</button>
+<button class="dealroom-stage" data-deal-stage="4" aria-pressed="false"><b>05 · Close</b>Handover</button>
+</div>
+<div class="dealroom-content" aria-live="polite">
+<div class="dealroom-main"><span class="dealroom-kicker" id="dealRoomKicker">STAGE 01 / MATCH & BRIEF</span><h3 id="dealRoomTitle">Start with a clear campaign brief.</h3><p id="dealRoomText">The brand shares its goal and preferred audience. The creator reviews the brief and decides whether the collaboration fits their channel.</p>
+<div class="dealroom-facts"><div class="dealroom-fact"><small>WHAT GETS RECORDED</small><b id="dealRoomFactOne">Campaign objective</b></div><div class="dealroom-fact"><small>WHO MOVES IT FORWARD</small><b id="dealRoomFactTwo">Brand + creator</b></div></div></div>
+<aside class="dealroom-side"><article><small>WORKSPACE CHECK</small><strong id="dealRoomCheckTitle">Fit before commitment</strong><p id="dealRoomCheckText">Review niche, audience, channel and campaign expectations before agreeing.</p></article><article><small>WHY IT HELPS</small><strong>One shared record</strong><p>Keep decisions, responsibilities and next steps visible instead of scattered across messages.</p></article></aside>
+</div>
+<div class="dealroom-controls"><span id="dealRoomCounter">Stage 1 of 5 · Demo only</span><div><button type="button" id="dealRoomPause" aria-pressed="false">Pause demo</button><button type="button" id="dealRoomPrev">← Back</button><button type="button" id="dealRoomNext">Next stage →</button></div></div>
+</div>
+<p class="dealroom-note">This is an illustrative workflow, not a live shipment, contract, payment, escrow service or guarantee. Any real commercial terms must be separately reviewed and agreed by the parties.</p>
+</div></section>
+<section class="audience-section" id="audience-paths">
       <div class="home-wrap">
         <div class="section-heading"><span class="section-kicker">Two sides, one thoughtful process</span><h2>Made to work for creators and brands.</h2><p>Switch between the two journeys to see what each side can prepare before applying.</p></div>
         <div class="audience-switch" role="group" aria-label="Choose your journey"><button type="button" class="audience-tab is-selected" data-audience="creator" aria-pressed="true">✦ For creators</button><button type="button" class="audience-tab" data-audience="brand" aria-pressed="false">▦ For brands</button></div>
@@ -210,7 +249,25 @@
     render(0);start();
 
 
-    const roleActions={brand:{primary:"Explore Verified Creators",primaryHref:"explore-creators.html",secondary:"Book Brand Demo",secondaryHref:"brand-application.html"},creator:{primary:"Join as Creator",primaryHref:"explore-creators.html#creatorSubmitSection",secondary:"Sign In",secondaryHref:"#signin"}};
+    const dealDemo=document.getElementById("dealRoomDemo");
+    if(dealDemo){
+      const stages=[
+       {k:"STAGE 01 / MATCH & BRIEF",t:"Start with a clear campaign brief.",d:"The brand shares its goal and preferred audience. The creator reviews the brief and decides whether the collaboration fits.",f1:"Campaign objective",f2:"Brand + creator",ct:"Fit before commitment",cd:"Review niche, audience, channel and campaign expectations before agreeing."},
+       {k:"STAGE 02 / TERMS & SCOPE",t:"Write down exactly what each side expects.",d:"Agree content formats, quantities, deadlines, revision limits, usage rights and the proposed commercial terms before work begins.",f1:"Deliverables + terms",f2:"Both parties",ct:"No unclear scope",cd:"Keep the agreed brief and changes in one shared reference."},
+       {k:"STAGE 03 / PRODUCT & LOGISTICS",t:"Track product handover when a campaign needs it.",d:"Record the item, dispatch reference, delivery updates and creator acknowledgement. Skip this stage when no physical product is involved.",f1:"Dispatch + receipt",f2:"Brand + creator",ct:"Visible handover",cd:"Record real tracking details only; never show sample data as a real courier update."},
+       {k:"STAGE 04 / CONTENT REVIEW",t:"Review the draft against the agreed brief.",d:"The creator shares a draft or preview. The brand leaves clear feedback and the creator handles any agreed revision before final approval.",f1:"Draft + feedback",f2:"Brand reviews; creator responds",ct:"Specific review notes",cd:"Keep feedback tied to agreed deliverables and revision limits."},
+       {k:"STAGE 05 / COMPLETION",t:"Close the work with a clear handover.",d:"Confirm that deliverables are complete, save final content links and note any remaining obligations under the separately agreed terms.",f1:"Final links + sign-off",f2:"Both parties",ct:"A documented close",cd:"Record completion transparently. This preview does not initiate or confirm a payment."}
+      ];
+      let stage=0,paused=false,timer=null;const $d=id=>document.getElementById(id);
+      function paint(n){stage=(n+stages.length)%stages.length;const x=stages[stage];$d("dealRoomKicker").textContent=x.k;$d("dealRoomTitle").textContent=x.t;$d("dealRoomText").textContent=x.d;$d("dealRoomFactOne").textContent=x.f1;$d("dealRoomFactTwo").textContent=x.f2;$d("dealRoomCheckTitle").textContent=x.ct;$d("dealRoomCheckText").textContent=x.cd;$d("dealRoomCounter").textContent="Stage "+(stage+1)+" of 5 · Demo only";dealDemo.querySelectorAll("[data-deal-stage]").forEach((b,i)=>{b.classList.toggle("active",i===stage);b.setAttribute("aria-pressed",String(i===stage))})}
+      function stop(){if(timer){clearInterval(timer);timer=null}}
+      function play(){stop();if(!paused&&!document.hidden&&!window.matchMedia("(prefers-reduced-motion: reduce)").matches)timer=setInterval(()=>paint(stage+1),5000)}
+      dealDemo.querySelectorAll("[data-deal-stage]").forEach(b=>b.addEventListener("click",()=>{paint(Number(b.dataset.dealStage));play()}));
+      $d("dealRoomPrev").onclick=()=>{paint(stage-1);play()};$d("dealRoomNext").onclick=()=>{paint(stage+1);play()};
+      $d("dealRoomPause").onclick=e=>{paused=!paused;e.currentTarget.textContent=paused?"Resume demo":"Pause demo";e.currentTarget.setAttribute("aria-pressed",String(paused));paused?stop():play()};
+      dealDemo.addEventListener("mouseenter",stop);dealDemo.addEventListener("mouseleave",play);dealDemo.addEventListener("focusin",stop);dealDemo.addEventListener("focusout",e=>{if(!dealDemo.contains(e.relatedTarget))play()});document.addEventListener("visibilitychange",()=>document.hidden?stop():play());paint(0);play();
+    }
+        const roleActions={brand:{primary:"Explore Verified Creators",primaryHref:"explore-creators.html",secondary:"Book Brand Demo",secondaryHref:"brand-application.html"},creator:{primary:"Join as Creator",primaryHref:"explore-creators.html#creatorSubmitSection",secondary:"Sign In",secondaryHref:"#signin"}};
     document.querySelectorAll("[data-home-role]").forEach(button=>button.addEventListener("click",()=>{const role=button.dataset.homeRole,data=roleActions[role];document.querySelectorAll("[data-home-role]").forEach(x=>{const active=x===button;x.classList.toggle("is-selected",active);x.setAttribute("aria-pressed",String(active))});const primary=document.getElementById("homePrimaryAction"),secondary=document.getElementById("homeSecondaryAction");primary.textContent=data.primary+" ↗";primary.href=data.primaryHref;secondary.textContent=data.secondary;secondary.href=data.secondaryHref;if(role==="creator"){
  primary.onclick=e=>{const p=JSON.parse(localStorage.getItem("creatorXBrandProfile")||"null");if(!p||!p.signedIn){e.preventDefault();const role=document.getElementById("siteRole");if(role)role.value="creator";localStorage.setItem("cxbrCreatorSignupRedirect","1");document.querySelector('[data-auth="signup"]')?.click()}else if(p.role==="creator"){e.preventDefault();location.href="explore-creators.html#creatorSubmitSection"}else{e.preventDefault();window.alert("This is a Brand account. Sign out and create a separate Creator account to apply as a creator.")}};
  secondary.onclick=e=>{e.preventDefault();document.querySelector('[data-auth="signin"]')?.click()};
