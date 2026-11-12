@@ -47,9 +47,15 @@ auth.onAuthStateChanged(async user=>{
  const section=$("creatorSubmitSection"),panel=$("creatorProfilePanel");section.hidden=false;panel.classList.remove("open");
  if(!user){$("creatorGateStatus").textContent="Create a Creator account or sign in to submit your profile.";return}
  try{
-  const userDoc=await db.collection("users").doc(user.uid).get();
-  const role=userDoc.exists?userDoc.data().role:"creator";
-  if(!userDoc.exists||role!=="creator"){$("creatorGateStatus").textContent="This section is for Creator accounts only. Choose Create Creator account above.";return}
+  let userDoc=await db.collection("users").doc(user.uid).get();
+  if(!userDoc.exists){
+   const createCreator=window.confirm("This login has no Creator X Brand account profile yet. Create a new Creator account with this login? Choose Cancel if this is a Brand account.");
+   if(!createCreator){$("creatorGateStatus").textContent="No account changes made. Sign in with your Creator account, or use a separate login to register as a Creator.";return}
+   await db.collection("users").doc(user.uid).set({uid:user.uid,name:user.displayName||user.email?.split("@")[0]||"Creator",email:user.email||"",role:"creator",createdAt:firebase.firestore.FieldValue.serverTimestamp()});
+   userDoc=await db.collection("users").doc(user.uid).get();
+  }
+  const role=userDoc.data()?.role;
+  if(role!=="creator"){$("creatorGateStatus").textContent="This section is for Creator accounts only. Your current account is registered as "+(role||"another role")+". Sign in with a Creator account or use a separate login.";return}
   section.hidden=false;panel.classList.add("open");$("creatorGateStatus").textContent="Creator account connected. Add every channel you want reviewed.";$("profileName").value=(userDoc.exists&&userDoc.data().name)||user.displayName||"";
   const existing=await db.collection("creatorProfiles").doc(user.uid).get();
   if(existing.exists){
@@ -57,7 +63,7 @@ auth.onAuthStateChanged(async user=>{
    $("profileStatus").textContent=p.status==="verified"?"Verified — your profile is already published. No second application is allowed.":p.status==="rejected"?"Your application was rejected. A second application is not allowed; contact support if you think this is an error.":"Your one application is already waiting for Admin review. You cannot submit another.";
    $("profileSubmit").disabled=false;$("profileSubmit").textContent="Already applied · View status";
   }else{$("profileStatus").textContent="You can submit one Creator profile with this account. It will stay private until Admin approval.";$("profileSubmit").disabled=false}
- }catch(e){$("profileStatus").textContent=e.code==="permission-denied"?"Firestore denied access to this account record. Publish the current firestore.rules file in Firebase Console, then sign out and sign in again.": "Could not check Creator account. Check your connection and sign in again.";console.error("Creator account check failed",e.code,e.message)}
+ }catch(e){const code=e?.code||"unknown";$("profileStatus").textContent=code==="permission-denied"?"Firebase denied this operation (permission-denied). Publish the latest firestore.rules in the creator-x-brand Firebase project, then sign out and sign in again.": "Creator account check failed ("+code+"): "+(e?.message||"Check your connection and try again.");console.error("Creator account check failed",code,e.message)}
 });
 db.collection("creatorProfiles").where("isPublic","==",true).where("status","==","verified").onSnapshot(s=>{all=s.docs.map(d=>({id:d.id,...d.data()})).filter(c=>c.status==="verified");populateCities();render()},e=>{$("creatorGrid").innerHTML='<div class="empty-state"><h2>Creator directory is being prepared</h2><p>Verified profiles will appear here after the team completes review.</p></div>';$("creatorCount").textContent="Directory unavailable";console.error(e)});
 }
