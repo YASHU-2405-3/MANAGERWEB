@@ -1,11 +1,14 @@
 const admin=require("firebase-admin");
+const fs=require("node:fs");
 
-if(!process.env.FIREBASE_SERVICE_ACCOUNT_JSON||!process.env.ADMIN_UID){
-  console.error("Set FIREBASE_SERVICE_ACCOUNT_JSON and ADMIN_UID first.");
+if(!process.env.ADMIN_UID||(!process.env.FIREBASE_SERVICE_ACCOUNT_JSON&&!process.env.FIREBASE_SERVICE_ACCOUNT_PATH)){
+  console.error("Set ADMIN_UID and either FIREBASE_SERVICE_ACCOUNT_JSON or FIREBASE_SERVICE_ACCOUNT_PATH.");
   process.exit(1);
 }
 
-const serviceAccount=JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON);
+const serviceAccountJson=process.env.FIREBASE_SERVICE_ACCOUNT_JSON
+  || fs.readFileSync(process.env.FIREBASE_SERVICE_ACCOUNT_PATH,"utf8");
+const serviceAccount=JSON.parse(serviceAccountJson);
 admin.initializeApp({credential:admin.credential.cert(serviceAccount)});
 
 (async()=>{
