@@ -23,7 +23,7 @@ auth.onAuthStateChanged(async user=>{
   if(existing.exists){
    const p=existing.data();$("profileCategory").value=p.category||"";$("profilePlatform").value=p.platform||"Instagram";$("profileCity").value=p.city||"";$("profileUrl").value=p.profileUrl||"";$("profileInstagram").value=p.channelLinks?.instagram||"";$("profileYouTube").value=p.channelLinks?.youtube||"";$("profileOther").value=p.channelLinks?.other||"";$("profileBio").value=p.bio||"";
    $("profileStatus").textContent=p.status==="verified"?"Verified — your profile is visible in Explore.":p.status==="rejected"?"Not approved. Contact support to request another review.":"Pending Admin review. Your profile is not public yet.";
-   $("profileSubmit").disabled=p.status==="verified"||p.status==="pending"||p.status==="rejected";
+   $("profileSubmit").disabled=p.status==="verified"||p.status==="pending";
   }else{$("profileStatus").textContent="Submit your profile for Admin review. Target review time: within 24 hours.";$("profileSubmit").disabled=false}
  }catch(e){$("profileStatus").textContent="Could not check Creator account. Refresh and sign in again.";console.error(e)}
 });
