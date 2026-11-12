@@ -21,6 +21,8 @@ service cloud.firestore {
       // A creator may submit their own public profile for review, never self-publish.
       allow create: if isAdmin()
         || (isCreatorAccount()
+          && creatorId == request.auth.uid
+          && !exists(/databases/$(database)/documents/creatorProfiles/$(request.auth.uid))
           && request.resource.data.uid == request.auth.uid
           && request.resource.data.status == 'pending'
           && request.resource.data.isPublic == false
@@ -35,8 +37,10 @@ service cloud.firestore {
           && (request.resource.data.channelLinks.youtube == '' || request.resource.data.channelLinks.youtube.matches('https://.*'))
           && (request.resource.data.channelLinks.other == '' || request.resource.data.channelLinks.other.matches('https://.*')));
 
+      // Creators may edit only a pending profile. A profile is keyed by UID and cannot be recreated.
       allow update: if isAdmin()
         || (isCreatorAccount()
+          && creatorId == request.auth.uid
           && resource.data.uid == request.auth.uid
           && request.resource.data.uid == resource.data.uid
           && resource.data.status == 'pending'
@@ -45,26 +49,6 @@ service cloud.firestore {
           && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
             'name','platform','profileUrl','category','secondaryCategory','city','language',
             'bio','followers','avatarUrl','updatedAt','email','channelLinks'
-          ]))
-        || (isCreatorAccount()
-          && resource.data.uid == request.auth.uid
-          && request.resource.data.uid == resource.data.uid
-          && resource.data.status == 'verified'
-          && request.resource.data.status == 'pending'
-          && request.resource.data.isPublic == false
-          && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
-            'name','platform','profileUrl','category','secondaryCategory','city','language',
-            'bio','followers','avatarUrl','updatedAt','email','channelLinks','verifiedChannels','status','isPublic'
-          ]))
-        || (isCreatorAccount()
-          && resource.data.uid == request.auth.uid
-          && request.resource.data.uid == resource.data.uid
-          && resource.data.status == 'rejected'
-          && request.resource.data.status == 'pending'
-          && request.resource.data.isPublic == false
-          && request.resource.data.diff(resource.data).affectedKeys().hasOnly([
-            'name','platform','profileUrl','category','secondaryCategory','city','language',
-            'bio','followers','avatarUrl','updatedAt','email','channelLinks','verifiedChannels','status','isPublic'
           ]));
       allow delete: if isAdmin();
     }
