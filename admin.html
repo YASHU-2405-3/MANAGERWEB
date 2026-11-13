@@ -60,6 +60,21 @@
 .admin-identity a{display:inline-block;color:#147a49;font-size:12px;font-weight:800}
 @media(max-width:520px){.identity-copy{align-items:stretch;flex-direction:column}.identity-copy button{width:100%}}
 </style>
+<style>
+/* Mobile-first workspace navigation: every admin section is reachable without opening the desktop sidebar. */
+.mobile-workspace-nav{display:none}
+@media(max-width:850px){
+  .mobile-workspace-nav{display:block;position:sticky;top:68px;z-index:18;margin:0 -15px 16px;padding:10px 12px 11px;background:rgba(247,250,248,.97);border-bottom:1px solid #dce7df;backdrop-filter:blur(12px)}
+  .mobile-workspace-heading{display:flex;align-items:center;justify-content:space-between;padding:0 2px 8px;color:#176b40;font-size:10px;font-weight:900;letter-spacing:.13em}
+  .mobile-workspace-heading small{font-size:10px;letter-spacing:0;font-weight:600;color:#68796e}
+  .mobile-workspace-links{display:flex;gap:7px;overflow-x:auto;overscroll-behavior-x:contain;scrollbar-width:thin;padding:0 0 3px}
+  .mobile-workspace-links button{flex:0 0 auto;display:flex;align-items:center;gap:6px;min-height:39px;padding:8px 11px;border:1px solid #dce7df;border-radius:11px;background:#fff;color:#52675a;font-size:11px;font-weight:800;white-space:nowrap}
+  .mobile-workspace-links button span{font-size:14px}
+  .mobile-workspace-links button.active{background:#176b40;border-color:#176b40;color:#fff}
+  .mobile-workspace-links button:focus-visible{outline:3px solid rgba(31,150,87,.25);outline-offset:2px}
+}
+@media(max-width:560px){.mobile-workspace-nav{margin:0 -12px 14px;padding:9px 12px 10px}.mobile-workspace-links button{min-height:41px;padding:9px 12px}}
+</style>
 </head>
 <body>
 <div id="overlay" class="overlay"></div>
@@ -95,6 +110,17 @@
 </div>
 <div id="loadError" class="notice error" style="display:none"></div>
 <section id="dashboard" style="display:none">
+<nav class="mobile-workspace-nav" aria-label="Admin workspace">
+  <div class="mobile-workspace-heading"><span>WORKSPACE</span><small>Quick navigation</small></div>
+  <div class="mobile-workspace-links">
+    <button class="active" type="button" data-view="overview"><span>▦</span>Overview</button>
+    <button type="button" data-view="tickets"><span>🎫</span>Applications</button>
+    <button type="button" data-view="chats"><span>▤</span>Chats</button>
+    <button type="button" data-view="accounts"><span>👥</span>Accounts</button>
+    <button type="button" data-view="creators"><span>✦</span>Creators</button>
+    <button type="button" data-view="deals"><span>◈</span>Deal Studio</button>
+  </div>
+</nav>
 <div class="view active" id="view-overview">
 <div class="welcome"><div><div class="eyebrow">Control Center</div><h2>Welcome back, Admin.</h2><p>Track applications, review tickets and manage creator/brand conversations.</p></div><button class="btn primary" data-go="tickets">Review tickets →</button></div>
 <div class="stats"><div class="stat"><div class="statlabel">Total applications</div><div id="total" class="statvalue">0</div><div class="statfoot">All submitted tickets</div></div><div class="stat"><div class="statlabel">Pending review</div><div id="pending" class="statvalue amber">0</div><div class="statfoot">Need your attention</div></div><div class="stat"><div class="statlabel">Approved</div><div id="approved" class="statvalue green">0</div><div class="statfoot">Accepted applications</div></div><div class="stat"><div class="statlabel">Rejected</div><div id="rejected" class="statvalue red">0</div><div class="statfoot">Declined applications</div></div><div class="stat"><div class="statlabel">Cancelled</div><div id="cancelled" class="statvalue">0</div><div class="statfoot">Closed applications</div></div></div>
